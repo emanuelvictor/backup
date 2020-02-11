@@ -1,0 +1,32 @@
+<form ng-submit="save()">
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nome</label>
+      <input type="text" ng-model="newEmploye.name" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" ng-click="selectFunction()" layout-align="center center">
+    <md-input-container style="cursor:pointer">
+      <label>Cargo</label>
+      <input type="text" ng-model="newEmploye.position.name" style="cursor:pointer" required readonly>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Email</label>
+      <input type="email" ng-model="newEmploye.email" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Senha</label>
+      <input type="password" ng-model="newEmploye.password" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-button class="md-raised md-primary" type="submit"
+               ng-disabled="!newEmploye.name||!newEmploye.position.positionId||!newEmploye.email||!newEmploye.password">
+      Salvar
+    </md-button>
+  </section>
+</form>

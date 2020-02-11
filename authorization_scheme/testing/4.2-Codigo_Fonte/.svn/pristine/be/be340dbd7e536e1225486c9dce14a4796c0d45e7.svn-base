@@ -1,0 +1,648 @@
+(function (angular) {
+    'use strict';
+
+    /**
+     *
+     * @param $scope
+     * @param $state
+     */
+    angular.module('autenticador')
+        .controller('UsuarioController', function ($scope, $state, $importService, $mdToast, $mdDialog, $log, $timeout, $q) {
+
+            /**
+             * Serviços importados do DWR
+             */
+            $importService("usuarioService");
+            $importService("aplicativoService");
+
+            /*-------------------------------------------------------------------
+             * 		 				 	ATTRIBUTES
+             *-------------------------------------------------------------------*/
+            //----STATES
+            /**
+             * Representa o estado de listagem de registros.
+             */
+            $scope.LIST_STATE = "usuario.list";
+            /**
+             * Representa o estado para a criação de registros.
+             */
+            $scope.ADD_STATE = "usuario.add";
+            /**
+             * Representa o estado para a edição de registros.
+             */
+            $scope.EDIT_STATE = "usuario.edit";
+            /**
+             * Representa o estado de detalhe de um registro.
+             */
+            $scope.DETAIL_STATE = "usuario.detail";
+
+            //----FORM MODEL
+
+            /**
+             * Contém o estados dos filtros da tela
+             * Contém estado da paginação inicial contendo sorting
+             *
+             */
+            $scope.model = {
+                form: null,
+                entity: new Usuario(),
+
+                filters: {
+                    terms: [],
+                    ativo: true
+                },
+                page: {//PageImpl
+                    content: null,
+                    pageable: {//PageRequest
+                        size: 5,
+                        page: 0,
+                        sort: {//Sort
+                            orders: [
+                                {direction: 'ASC', property: 'nomeCompleto'}
+                            ]
+                        }
+                    }
+                }
+            };
+
+            /*-------------------------------------------------------------------
+             * 		 				  POST CONSTRUCT
+             *-------------------------------------------------------------------*/
+            /**
+             * Handler que escuta as mudanças de URLs pertecentes ao estado da tela.
+             * Ex.: list, add, detail, edit
+             *
+             * Toda vez que ocorre uma mudança de URL se via botão, troca de URL manual, ou ainda
+             * ao vançar e voltar do browser, este evento é chamado.
+             *
+             */
+            $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+
+                switch ($state.current.name) {
+                    case $scope.LIST_STATE:
+                    {
+                        $scope.changeToList(false);
+                        break;
+                    }
+                    case $scope.DETAIL_STATE:
+                    {
+                        $scope.changeToDetail($state.params.id);
+                        break;
+                    }
+                    case $scope.ADD_STATE:
+                    {
+                        $scope.changeToAdd();
+                        break;
+                    }
+                    case $scope.EDIT_STATE:
+                    {
+                        $scope.changeToEdit($state.params.id);
+                        break;
+                    }
+                    default :
+                    {
+                        $state.go($scope.LIST_STATE);
+                    }
+                }
+            });
+
+            /*-------------------------------------------------------------------
+             * 		 				 	  HANDLERS
+             *-------------------------------------------------------------------*/
+            /**
+             * Handler para que realiza os procedimentos iniciais (prepara o estado)
+             * para a tela de inserção e após isso, muda o estado para $scope.ADD_STATE.
+             *
+             * @see $scope.ADD_STATE
+             */
+            $scope.changeToAdd = function () {
+                console.debug("changeToAdd");
+
+                $scope.getLoggedUser = function () {
+
+                    usuarioService.getLoggedUser({
+                        callback: function (result) {
+                            $scope.model.entity = result;
+                            console.log(result);
+                            usuarioService.listPerfilUsuarioAplicativoByUsuarioId(result.id, null, {
+
+                                callback: function (result) {
+
+                                    $scope.model.perfil = result;
+                                    console.log(result);
+                                },
+                                errorHandler: function (message, exception) {
+                                }
+                            });
+
+
+                            $scope.$apply();
+                        },
+                        errorHandler: function (message, exception) {
+                        }
+                    });
+
+                };
+
+                $scope.model.entity = new Usuario();//Limpa o formulário
+                $state.go($scope.ADD_STATE);
+            };
+
+            /**
+             * Realiza os procedimentos iniciais (prepara o estado)
+             * para a tela de edição e após isso, muda o estado para update.
+             *
+             * Para mudar para este estado, deve-se primeiro obter via id
+             * o registro pelo serviço de consulta e só então mudar o estado da tela.
+             *
+             * @see $scope.EDIT_STATE
+             */
+            $scope.changeToEdit = function (id) {
+                console.debug("changeToEdit", id);
+
+                usuarioService.findUsuarioById(id, {
+                    callback: function (result) {
+                        $scope.model.entity = result;
+                        $state.go($scope.EDIT_STATE, {id: id});
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $state.go($scope.LIST_STATE);
+                        $scope.$apply();
+                    }
+                });
+            };
+
+            /**
+             * Realiza os procedimentos iniciais (prepara o estado)
+             * para a tela de consulta e após isso, muda o estado para list.
+             * Para mudar para este estado, deve-se primeiro carregar os dados da consulta.
+             *
+             * @see $scope.LIST_STATE
+             *
+             * @param paginate boolean para saber se precisa paginar
+             */
+            $scope.changeToList = function (paginate) {
+                console.debug("changeToList");
+
+                if (paginate) $scope.model.page.pageable.page++;
+
+                $scope.listUsuariosByFilter($scope.model.filters, $scope.model.page.pageable);
+            };
+
+            function ReplicarCtrl(scope, $mdDialog, $q, usuario) {
+
+                scope.usuario = usuario;
+
+                scope.selectedItem = null;
+                scope.searchText = null;
+                scope.querySearch = querySearch;
+                scope.usuarioSelecionado = [];
+                /**
+                 * Search for vegetables.
+                 */
+                function querySearch(query) {
+                    var deferred = $q.defer();
+
+                    usuarioService.listUsuariosByFilters(query, null, {
+                        callback: function (result) {
+                            deferred.resolve(result.content);
+                        },
+                        errorHandler: function (message, exception) {
+                            $mdToast.showSimple(message);
+                        }
+                    });
+
+                    return deferred.promise;
+                }
+
+                // ******************************
+                // Internal methods
+                // ******************************
+
+                scope.reply = function () {
+                    console.log(usuario, scope.usuarioSelecionado);
+                    usuarioService.replicarPerfisAcesso(usuario, scope.usuarioSelecionado, {
+                        callback: function (result) {
+                            $mdToast.showSimple('Replicado com sucesso');
+                            scope.usuarioSelecionado = [];
+                        },
+                        errorHandler: function (message, exception) {
+                            $mdToast.showSimple(message);
+                        }
+                    });
+                };
+
+                scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $scope.replyProfile = function (event, usuario) {
+                console.log(event, usuario);
+                $mdDialog.show({
+                    controller: ReplicarCtrl,
+                    templateUrl: 'modules/autenticador/views/usuario/usuario-replicar-perfil.jsp',
+                    targetEvent: event,
+                    locals: {
+                        usuario: usuario
+                    }
+                })
+                    .then(function (answer) {
+                        $scope.alert = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.alert = 'You cancelled the dialog.';
+                    });
+            };
+
+            function BloquearUsuarioController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            };
+
+            $scope.bloquearUsuario = function (ev) {
+                console.log(ev);
+                $mdDialog.show({
+                    controller: BloquearUsuarioController,
+                    templateUrl: 'modules/autenticador/views/usuario/usuario-bloquear.jsp',
+                    targetEvent: ev
+                })
+                    .then(function (answer) {
+                        $scope.alert = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.alert = 'You cancelled the dialog.';
+                    });
+            };
+
+
+            function AdicionarAplicativoController($scope, $mdDialog) {
+
+               $scope.items = [];
+                $scope.items.push({ id: 1, widgetId: 54, colorId: 45, foo: {
+                    fooId: 1
+                }});
+                $scope.items.push({ id: 2, widgetId: 54, colorId: 72, foo: {
+                    fooId: 2
+                } });
+                $scope.items.push({ id: 3, widgetId: 54, colorId: 29, foo: {
+                    fooId: 3
+                } });
+                $scope.items.push({ id: 4, widgetId: 55, colorId: 67, foo: {
+                    fooId: 4
+                } });
+                $scope.items.push({ id: 5, widgetId: 55, colorId: 29, foo: {
+                    fooId: 5
+                } });
+                $scope.items.push({ id: 6, widgetId: 56, colorId: 29, foo: {
+                    fooId: 6
+                } });
+                $scope.items.push({ id: 7, widgetId: 56, colorId: 72, foo: {
+                    fooId: 7
+                } });
+                $scope.items.push({ id: 8, widgetId: 57, colorId: 75, foo: {
+                    fooId: 8
+                } });
+
+                $scope.aplicativos = new Array();
+                aplicativoService.listPerfisAcessoByFilters( null, null, {
+
+                    callback: function (result) {
+                        $scope.perfisAcesso = result.content;
+                        console.log($scope.perfisAcesso);
+                        //for (var i = 0; i < result.content.length; i++) {
+                        //    if ($.inArray(result.content[i].perfilAcesso.aplicativo, $scope.aplicativos)) $scope.aplicativos.push(result.content[i].perfilAcesso.aplicativo);
+                        //}
+                        console.log(result);
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $scope.$apply();
+                    }
+                });
+
+
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            };
+
+            $scope.showAddApp = function (ev) {
+                $mdDialog.show({
+                    controller: AdicionarAplicativoController,
+                    templateUrl: 'modules/autenticador/views/usuario/usuario-add-aplicativo.jsp',
+                    targetEvent: ev
+                })
+                    .then(function (answer) {
+                        $scope.alert = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.alert = 'You cancelled the dialog.';
+                    });
+            };
+
+            /**
+             * Realiza os procedimentos iniciais (prepara o estado)
+             * para a tela de detalhe e após isso, muda o estado para detail.
+             *
+             * Para mudar para este estado, deve-se primeiro obter via id
+             * o registro atualizado pelo serviço de consulta e só então mudar o estado da tela.
+             *
+             * @see $scope.DETAIL_STATE
+             */
+            $scope.changeToDetail = function (id) {
+                console.debug("changeToDetail", id);
+
+                usuarioService.findUsuarioById(id, {
+                    callback: function (result) {
+                        $scope.model.entity = result;
+                        $state.go($scope.DETAIL_STATE, {id: id});
+
+                        $scope.dataExpiracaoSenha = moment($scope.model.entity.dataExpiracaoSenha).format('DD/MM/YYYY hh:mm');
+                        $scope.dataBloqueio = moment($scope.model.entity.dataBloqueio).format('DD/MM/YYYY hh:mm');
+                        $scope.dataDesbloqueio = moment($scope.model.entity.dataDesbloqueio).format('DD/MM/YYYY hh:mm');
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $state.go($scope.LIST_STATE);
+                        $scope.$apply();
+                    }
+                });
+            };
+
+            /**
+             * Realiza os procedimentos iniciais (prepara o estado)
+             * para a tela de exclusão.
+             * Antes de excluir, o usuário notificado para confirmação e só então o registro é excluido.
+             */
+            $scope.changeToRemove = function (event, entity) {
+                console.debug("changeToRemove", entity);
+
+                var confirm = $mdDialog.confirm()
+                    .title('Tem certeza que deseja excluir este registro?')
+                    .content('Não será possível recuperar este registro se for excluído.')
+                    .ok('Sim')
+                    .cancel('Cancelar')
+                    .targetEvent(event);
+
+                $mdDialog.show(confirm).then(function (result) {
+                    console.log(result);
+
+                    usuarioService.removeUsuarios([entity.id], {
+                        callback: function (result) {
+                            $mdToast.showSimple("O registro foi excluído com sucesso!");
+                        },
+                        errorHandler: function (message, exception) {
+                            $mdToast.showSimple(message);
+                            $scope.$apply();
+                        }
+                    });
+                });
+            };
+
+            /**
+             * Realiza a inserção de um novo registro
+             * e no suscesso, modifica o estado da tela para o detail.
+             */
+            $scope.insertHandler = function () {
+                console.debug("insertHandler");
+
+                if ($scope.model.form.$invalid) {
+                    $mdToast.showSimple("Fomulário inválido");
+                    return;
+                }
+
+                usuarioService.insertUsuario($scope.model.entity, {
+                    callback: function (result) {
+                        $mdToast.showSimple("Registro salvo com sucesso!");
+                        $state.go($scope.DETAIL_STATE, {id: result.id});
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $scope.$apply();
+                    }
+                });
+            };
+
+            /**
+             * Realiza a inserção de um novo registro
+             * e no suscesso, modifica o estado da tela para o detail.
+             */
+            $scope.updateHandler = function () {
+                console.debug("updateHandler");
+                console.log($scope.model.entity);
+                usuarioService.updateUsuario($scope.model.entity, {
+                    callback: function (result) {
+                        $mdToast.showSimple("Registro atualizado com sucesso!");
+                        $state.go($scope.DETAIL_STATE, {id: result.id});
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $scope.$apply();
+                    }
+                });
+            };
+
+            /*-------------------------------------------------------------------
+             * 		 				 PRIVATE BEHAVIORS
+             *-------------------------------------------------------------------*/
+            /**
+             * Realiza a consulta de registros, consirando filtro, paginação e sorting.
+             *
+             * @see $scope.LIST_STATE
+             * @see $scope.filters
+             * @see $scope.page
+             */
+
+            $scope.listUsuariosByFilter = function (filters, pageRequest) {
+                usuarioService.listUsuariosByFilters(filters.terms.toString(), pageRequest, {
+                    callback: function (result) {
+                        $scope.model.page.content = $scope.model.page.content ? $scope.model.page.content.concat(result.content) : $scope.model.page = result;
+
+                        $state.go($scope.LIST_STATE);
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $scope.$apply();
+                    }
+                });
+            };
+
+
+            //????
+            $scope.usuarios = [];
+
+            /**
+             * Retorna todos os aplicativos deste usuário
+             *
+             * @see $scope.LIST_STATE
+             * @see $scope.filters
+             * @see $scope.page
+             */
+            $scope.listPerfilUsuarioAplicativoByUsuarioId = function (id) {
+                $scope.aplicativos = new Array();
+                usuarioService.listPerfilUsuarioAplicativoByUsuarioId(id, null, {
+
+                    callback: function (result) {
+                        $scope.perfisUsuarioAplicativo = result.content;
+                        for (var i = 0; i < result.content.length; i++) {
+                            if ($.inArray(result.content[i].perfilAcesso.aplicativo, $scope.aplicativos)) $scope.aplicativos.push(result.content[i].perfilAcesso.aplicativo);
+                        }
+                        $scope.$apply();
+                    },
+                    errorHandler: function (message, exception) {
+                        $mdToast.showSimple(message);
+                        $scope.$apply();
+                    }
+                });
+            };
+
+
+            function HistoricoAplicativosController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            };
+
+            $scope.showAdvanced = function (ev) {
+                $mdDialog.show({
+                    controller: HistoricoAplicativosController,
+                    templateUrl: 'modules/autenticador/views/usuario/usuario-historico-aplicativo.jsp',
+                    targetEvent: ev
+                })
+                    .then(function (answer) {
+                        $scope.alert = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.alert = 'You cancelled the dialog.';
+                    });
+            };
+
+
+            $scope.onOpenEventHandler = function () {
+                $log.log("abriu");
+            }
+
+            $scope.onCloseEventHandler = function () {
+                $log.log("fechou");
+            }
+
+
+        })
+        .filter('groupBy', ['$parse', 'pmkr.filterStabilize', function ($parse, filterStabilize) {
+
+            function groupBy(input, prop) {
+
+                if (!input) { return; }
+
+                var grouped = {};
+
+                input.forEach(function(item) {
+                    var key = $parse(prop)(item);
+                    grouped[key] = grouped[key] || [];
+                    grouped[key].push(item);
+                });
+
+                return grouped;
+
+            }
+
+            return filterStabilize(groupBy);
+
+        }])
+
+        .factory('pmkr.filterStabilize', [
+            'pmkr.memoize',
+            function(memoize) {
+
+                function service(fn) {
+
+                    function filter() {
+                        var args = [].slice.call(arguments);
+                        // always pass a copy of the args so that the original input can't be modified
+                        args = angular.copy(args);
+                        // return the `fn` return value or input reference (makes `fn` return optional)
+                        var filtered = fn.apply(this, args) || args[0];
+                        return filtered;
+                    }
+
+                    var memoized = memoize(filter);
+
+                    return memoized;
+
+                }
+
+                return service;
+
+            }
+        ])
+
+        .factory('pmkr.memoize', [
+            function() {
+
+                function service() {
+                    return memoizeFactory.apply(this, arguments);
+                }
+
+                function memoizeFactory(fn) {
+
+                    var cache = {};
+
+                    function memoized() {
+
+                        var args = [].slice.call(arguments);
+
+                        var key = JSON.stringify(args);
+
+                        if (cache.hasOwnProperty(key)) {
+                            return cache[key];
+                        }
+
+                        cache[key] = fn.apply(this, arguments);
+
+                        return cache[key];
+
+                    }
+
+                    return memoized;
+
+                }
+
+                return service;
+
+            }
+        ])
+
+
+    ;;
+
+
+}(window.angular));

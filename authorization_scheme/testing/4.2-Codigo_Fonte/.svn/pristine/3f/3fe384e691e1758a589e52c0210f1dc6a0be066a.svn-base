@@ -1,0 +1,33 @@
+ul{list-style: none}
+/* PAPER-SHEET */
+form > div.eits-paper-sheet-item, form > div.eits-paper-sheet-item:hover{padding: 30px; background-color: none; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); background-color: #fff}
+eits-paper-sheet div.eits-paper-sheet-item:first-child .paper-sheet-closed{padding: 30px}
+eits-paper-sheet div.eits-paper-sheet-item:first-child:hover{background-color: none}
+eits-paper-sheet div.eits-paper-sheet-item:hover{background-color: #efefef; cursor: pointer; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);}
+eits-paper-sheet div.eits-paper-sheet-item.clicked, .eits-paper-sheet-item.clicked:hover{box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); background-color: #fff}
+eits-paper-sheet div.paper-sheet-closed h4{padding: 0 30px}
+eits-paper-sheet div.eits-paper-sheet-item.clicked .paper-sheet-closed h4{margin: 0;font-size: 20px; line-height: 60px}
+eits-paper-sheet div.paper-sheet-opened{padding: 30px}
+eits-paper-sheet div.eits-paper-sheet-item.clicked div.paper-sheet-opened{display: block}
+eits-paper-sheet div.eits-paper-sheet-item{padding: 0}
+
+eits-paper-sheet div.eits-paper-sheet-item.clicked:hover{cursor: default}
+
+ul.details{padding:0; list-style: none; float: left; width: 100%; display: block}
+ul.details li{float: left; color: #333; display: block; width: 100%}
+ul.details li p{float: left;color: #333}
+ul.details li p:first-child{color: #999; min-width: 150px}
+
+/* APLICATIVOS */
+.icon{display:block;width:120px;height:120px;border-radius:60px;font-size:20px;line-height: 15px; color:#fff;text-align:center;background:#0c7cc0;}
+.icon span{padding-top: 47px; display: block}
+
+
+/* DROP DOWN */
+.dd{height: inherit}
+div.dd-menu.left-top.active{left:-140px}
+
+/* UI-TREE */
+li div.angular-ui-tree-handle{font-weight: inherit}
+li div.angular-ui-tree-handle .selected{font-weight: 900}
+li.angular-ui-tree-node .children {margin-left: 27px}

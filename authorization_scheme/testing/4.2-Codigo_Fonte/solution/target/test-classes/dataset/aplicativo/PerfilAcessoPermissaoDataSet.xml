@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.perfil_acesso_permissao 
+		id = "1"
+		perfil_acesso_id = "1"
+		permissao_id = "1"
+		created = "2015-03-30 00:00:00"/>
+</dataset>

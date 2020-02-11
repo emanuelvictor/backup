@@ -1,0 +1,83 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="pt">
+
+<md-toolbar ng-init="getAplicativos()" class="md-tall md-toolbar-main ng-scope md-default-theme">
+    <h2 class="md-toolbar-tools" style="padding-left: 133px;">
+        <span>Bem-vindo ao autenticador DAbM</span>
+    </h2>
+</md-toolbar>
+
+<md-content layout-padding style="padding: 60px; background-color: #d3d3d3 ">
+    <md-grid-list md-cols-sm="1" md-cols-md="2" md-cols-gt-md="5"
+                  md-row-height-gt-md="230px" md-row-height="250px" md-gutter="38px" md-gutter-gt-sm="50px">
+    <!--class="md-whiteframe-z1 "-->
+
+
+    <!-- USUARIO -->
+
+    <md-grid-tile class="gray" md-rowspan="1" md-colspan="1" md-colspan-sm="1"
+                  style="background-color : white"
+                  ng-repeat="aplicativo in aplicativos"
+                  ng-if=" perfil == 'USUARIO'"
+                  ng-click="openAplicativo(aplicativo.endereco) "
+
+            >
+
+        <!-- aplicativos-->
+        <div layout="column" layout-align="start center" style="padding: 35px 10px 30px 10px">
+            <div style="width: 80px; height: 80px; background-color : #d3d3d3; border-radius: 50% ">
+
+            </div>
+
+            <div class="md-caption" style="font-weight: bold ; margin-top: 40px">{{aplicativo.nome}}</div>
+            <div class="md-caption" layout-align="center center" style="margin-top: 20px; text-align: center">
+                {{aplicativo.descricao}}
+            </div>
+        </div>
+    </md-grid-tile>
+
+    <!-- ADMINISTRADOR -->
+    <md-grid-tile class="gray" md-rowspan="1" md-colspan="1" md-colspan-sm="1"
+                  style="background-color : white"
+                  ng-if=" userLogged.perfil == 'ADMINISTRADOR' "
+                  ng-click="$state.go( USUARIOS_STATE )">
+        <!-- usuarios-->
+        <div layout="column" layout-align="start center" style="padding: 35px 10px 30px 10px">
+            <div style="width: 80px; height: 80px; background-color : #d3d3d3; border-radius: 50% ">
+
+            </div>
+            <div class="md-caption" style="font-weight: bold ; margin-top: 40px">Usuários</div>
+            <div class="md-caption" layout-align="center center" style="margin-top: 20px; text-align: center">
+                Adicionar, editar e gerenciar usuários
+            </div>
+        </div>
+    </md-grid-tile>
+
+    <md-grid-tile class="gray" md-rowspan="1" md-colspan="1" md-colspan-sm="1"
+                  style="background-color : white"
+                  ng-if=" userLogged.perfil == 'ADMINISTRADOR' "
+
+                  ng-click="$state.go( APLICATIVOS_STATE )">
+        <!-- aplicativos-->
+        <div layout="column" layout-align="start center" style="padding: 35px 10px 30px 10px">
+            <div style="width: 80px; height: 80px; background-color : #d3d3d3; border-radius: 50% ">
+                <img src="https://s3.amazonaws.com/www.eits.com.br/logo-email.png"/>
+            </div>
+            <div class="md-caption" style="font-weight: bold ; margin-top: 40px">Aplicativos</div>
+            <div class="md-caption" layout-align="center center" style="margin-top: 20px; text-align: center">
+                Adicionar, editar e gerenciar aplicativos
+            </div>
+        </div>
+
+    </md-grid-tile>
+
+
+    </md-grid-list>
+</md-content>
+</html>

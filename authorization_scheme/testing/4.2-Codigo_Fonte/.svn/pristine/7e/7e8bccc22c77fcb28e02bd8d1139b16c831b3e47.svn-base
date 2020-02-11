@@ -1,0 +1,50 @@
+/**
+ * 
+ */
+package br.mil.mar.dabm.autenticador.domain.repository.usuario.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import br.mil.mar.dabm.autenticador.domain.entity.usuario.Usuario;
+import br.mil.mar.dabm.autenticador.domain.repository.usuario.IUsuarioRepository;
+
+/**
+ * @author emanuelvictor
+ *
+ */
+public class UserDetailsServiceImpl implements UserDetailsService
+{
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	@Autowired
+	private IUsuarioRepository usuarioRepository;
+
+	/*-------------------------------------------------------------------
+	 *				 		     BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
+	@Override
+	public UserDetails loadUserByUsername( String login ) throws UsernameNotFoundException
+	{
+		System.out.println(login);
+		Usuario usuario = this.usuarioRepository.findByLoginIgnoreCase( login );
+		if ( usuario == null )
+		{	
+			throw new UsernameNotFoundException( "This login '" + login + "' was not found" );
+		}
+		else
+		{
+			return usuario;
+		}
+	}
+}

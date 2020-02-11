@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - authorization_server@localhost" uuid="d5b4804a-72c5-4361-b367-bf67636baaea">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>authorization_server.pg_catalog authorization_server.public</schema-pattern>
+      <default-schemas>authorization_server.pg_catalog authorization_server.public</default-schemas>
+    </data-source>
+  </component>
+</project>

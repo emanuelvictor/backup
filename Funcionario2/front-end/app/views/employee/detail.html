@@ -1,0 +1,28 @@
+<form ng-submit="edit(employee.id)" ng-init="init()">
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nome</label>
+      <input type="text" ng-model="employee.name" required readonly>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Cargo</label>
+      <input type="text" ng-model="employee.position.name" required readonly>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Email</label>
+      <input type="email" ng-model="employee.email" required readonly>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <div class="md-actions" layout="row">
+     <span flex></span>  
+      <md-button type="submit" class="md-primary">
+       Alterar
+      </md-button>
+    </div>
+  </section>
+</form>

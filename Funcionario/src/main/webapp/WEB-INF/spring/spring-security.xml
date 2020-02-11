@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+
+    <!-- Configurações do spring security -->
+    <security:http auto-config="false" use-expressions="true" disable-url-rewriting="true">
+
+        <security:intercept-url pattern="/engine.js" access="permitAll"/>
+        <security:intercept-url pattern="/util.js" access="permitAll"/>
+        <security:intercept-url pattern="/interface/autenticacaoService.js" access="permitAll"/>
+        <security:intercept-url pattern="/call/plaincall/__System.generateId.dwr" access="permitAll"/>
+
+        <!--dependencias a serem utilizadas pela tela de login-->
+        <security:intercept-url pattern="/app/bower_components/**" access="permitAll" />
+        <!--liberação da controller de autenticação do angular-->
+        <security:intercept-url pattern="/app/scripts/controllers/autenticacao.js" access="permitAll" />
+        <!--liberação da view de autenticação-->
+        <security:intercept-url pattern="/app/view/autenticacao/login.html" access="permitAll" />
+        <!--o restante da aplicação só pode ser acessada quando o usuário estiver autenticado-->
+        <!-- <security:intercept-url pattern="/**" access="isAuthenticated()"/> -->
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <!--Respectivo ao form de login -->
+        <security:form-login login-page="/app/view/autenticacao/login.html"
+                             authentication-success-handler-ref=""
+                             default-target-url="/app/index.html"
+                             always-use-default-target="true"
+                             authentication-failure-handler-ref="authenticationFailureHandler"
+                             password-parameter="password" username-parameter="email"/>
+
+        <!--descrever-->
+        <security:logout logout-url="/logout" logout-success-url="/app/view/autenticacao/login.html"/>
+    </security:http>
+
+    <bean id="passwordEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </bean>
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="autenticacaoService">
+            <security:password-encoder ref="passwordEncoder"></security:password-encoder>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+    <bean id="authenticationFailureHandler" class="br.com.emanuelvictor.funcionario.service.AuthenticationFailureHandler"/>
+</beans>

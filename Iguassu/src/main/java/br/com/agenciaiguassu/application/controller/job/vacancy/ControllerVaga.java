@@ -1,0 +1,68 @@
+package br.com.agenciaiguassu.application.controller.job.vacancy;
+
+import br.com.agenciaiguassu.domain.service.job.vacancy.ServiceVaga;
+import br.com.agenciaiguassu.domain.entity.job.vacancy.Vaga;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+//TODO
+@Controller
+public class ControllerVaga {
+    @Autowired
+    ServiceVaga serviceVaga;
+
+    @RequestMapping(value = "/vagas", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Object save(@RequestBody Vaga vaga) {
+        return this.serviceVaga.save(vaga);
+    }
+
+    @RequestMapping(value = "/vagas/{id}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Object find(@PathVariable Long id) {
+        return serviceVaga.find(id);
+    }
+
+    @RequestMapping(value = "/vagas/{id}", method = RequestMethod.DELETE)
+    public
+    @ResponseBody
+    void delete(@PathVariable Long id) {
+        serviceVaga.delete(id);
+    }
+
+    @RequestMapping(value = "/vagas", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Object find() {
+        return serviceVaga.find();
+    }
+
+    @RequestMapping(value = "/vagas/{pagina}", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Object find(@RequestBody(required = false) Vaga vaga,
+                @PathVariable Integer pagina) {
+        return serviceVaga.find(vaga, new PageRequest(pagina, 20));
+    }
+
+    @RequestMapping(value = "/vagas/disponiveis", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Object vagasDisponiveis() throws Exception{
+        serviceVaga.getVagasDisponiveis();
+        return null;
+    }
+
+    @RequestMapping(value = "/vagas/ocupadas", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Object vagasOcupadas() throws Exception{
+        serviceVaga.getVagasOcupadas();
+        return null;
+    }
+
+}

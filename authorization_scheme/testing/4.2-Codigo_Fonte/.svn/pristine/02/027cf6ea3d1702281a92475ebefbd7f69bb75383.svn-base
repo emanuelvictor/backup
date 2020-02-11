@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.permissao 
+		id = "1"
+		identificador = "Identificador"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+</dataset>

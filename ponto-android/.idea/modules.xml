@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../../libs/JakeWharton-ActionBarSherlock-071a61c/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/../../../libs/JakeWharton-ActionBarSherlock-071a61c/actionbarsherlock/actionbarsherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ponto-android.iml" filepath="$PROJECT_DIR$/ponto-android.iml" />
+    </modules>
+  </component>
+</project>
+

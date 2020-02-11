@@ -1,0 +1,34 @@
+<md-dialog aria-label="Cargos" ng-init="init()">
+  <md-content style="overflow:hidden;margin-bottom:-25px">
+    <md-input-container>
+      <label>Cargo</label>
+      <input ng-model="editFunction.name" >
+    </md-input-container>
+  </md-content>
+  <md-content>
+    <md-list>
+      <md-item style="cursor:pointer">
+        <md-item-content ng-repeat="functionn in functions">
+          <div class="md-tile-content" ng-click="edit(functionn)">
+            <h3>{{functionn.name}}</h3>
+          </div>
+        </md-item-content>
+      </md-item>
+    </md-list>
+  </md-content>
+  <div class="md-actions" layout="row">  
+   <span flex></span>
+    <md-button ng-click="search(editFunction)">
+      Consultar
+    </md-button>
+      <md-button ng-disabled="!editFunction.positionId" ng-click="destroy(editFunction)">
+      Excluir
+    </md-button>
+    <md-button ng-click="clear()">
+      Limpar
+    </md-button>
+    <md-button ng-disabled="!editFunction.name" ng-click="save(editFunction)" class="md-primary">
+     Salvar
+    </md-button>
+  </div>
+</md-dialog>

@@ -1,0 +1,183 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="pt">
+    
+<md-content layout="row" layout-padding layout-align="center start" class="content">
+     
+     <div layout-align="center center" style="max-width:800px; min-width: 800px">
+        <form ng-submit="insertHandler()" name="model.form">
+
+        <md-button type="submit" aria-label="Adicionar Usuário"
+               class="md-fab md-fab-top-right"
+               ng-if="$state.current.name == ADD_STATE">
+            <md-icon class="md-icon-save md-icon-lg"></md-icon>
+        </md-button>
+
+        <md-button type="submit" aria-label="Editar Usuário"
+               class="md-fab md-fab-top-right"
+               ng-if="$state.current.name == EDIT_STATE">
+            <md-icon class="md-icon-save md-icon-lg"></md-icon>
+        </md-button>
+        
+            <div class="eits-paper-sheet-item">
+                <div class="paper-sheet-closed">
+                    <content-open class="ng-scope">
+                        <div layout="row" layout-margin layout-align="center center">
+                            <div flex="20">
+                                <div class="icon">
+                                    <span class="md-caption">{{ $state.current.name == 'ADD_STATE' ? 'Adicionar' : 'Alterar' }}<br>foto</span>
+                                </div>
+                            </div>
+
+                            <div flex="80">
+                                <div layout="row">
+                                    <md-input-container class="md-default-theme" flex="60" layout-margin>
+                                        <label for="nomeCompleto">Nome do usuário</label>
+                                        <input type="text" ng-model="model.entity.nomeCompleto" required=""
+                                               md-maxlength="144" name="nomeCompleto"
+                                               id="nomeCompleto">
+
+                                        <div ng-messages="model.form.nomeCompleto.$error">
+                                            <div ng-message="required">Insira o nome completo</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container class="md-default-theme" flex layout-margin>
+                                        <label for="email">Email</label>
+                                        <input ng-model="model.entity.email" type="email" name="email"
+                                               md-maxlength="100" id="email">
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                        </div>
+                    </content-open>
+                </div>
+            </div>
+            <eits-paper-sheet id="informacoes">
+
+                <content-closed>
+                    <h4>Informações da conta</h4>
+                    <md-divider></md-divider>
+                </content-closed>
+
+                <content-opened>
+                    <div layout-margin layout="row" layout-sm="column">
+                        <div flex="40">
+                            <md-input-container>
+                                <label for="login">NIP</label>
+                                <input ng-model="model.entity.login" required name="login" type="text" id="login"
+                                       md-maxlength="50">
+
+                                <div ng-messages="model.form.login.$error">
+                                    <div ng-message="required">Preencha um NIP</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container ng-if="$state.current.name == EDIT_STATE && model.entity.pessoa.cpf">
+                                <label for="cpf">CPF</label>
+                                <input ng-model="model.entity.pessoa.cpf" disabled id="cpf">
+                            </md-input-container>
+
+                            <md-input-container ng-if="$state.current.name == EDIT_STATE">
+                                <label for="nomeGuerra">Nome de guerra</label>
+                                <input ng-model="model.entity.pessoa.nomeGuerra" id="nomeGuerra">
+                            </md-input-container>
+                            
+                            <div layout="row" layout-sm="column" ng-if="$state.current.name == EDIT_STATE">
+                                <date-picker aria-label="Data de expiração senha"
+                                             model="model.entity.dataExpiracaoSenha" label="Expiração de senha"
+                                             locale="pt-br"
+                                             date-format="L"></date-picker>
+                            </div>                               
+                            <div layout="row" layout-sm="column">
+                                <label layout-margin>Período de bloqueio de conta</label>
+                            </div>                                
+                            <md-content layout="row" layout-sm="column">
+                                    <date-picker aria-label="Data de início de período bloqueio"
+                                                 model="model.entity.dataBloqueio"
+                                                 label="Início"
+                                                 locale="pt-br"
+                                                 date-format="L"></date-picker>
+
+                                    <date-picker aria-label="Data de desbloqueio"
+                                                 model="model.entity.dataDesbloqueio"
+                                                 label="Fim"
+                                                 locale="pt-br"
+                                                 date-format="L"></date-picker>
+                            </md-content>
+                        </div>
+                    </div>
+
+                </content-opened>
+            </eits-paper-sheet>
+        </form>
+        <eits-paper-sheet ng-if="$state.current.name == EDIT_STATE" id="aplicativos" on-close="onCloseEventHandler()" on-open="onOpenEventHandler()">
+            <content-closed>
+                <div layout="row" layout-align="center center">
+                    <h4>Aplicativos</h4>
+                    <span flex></span>
+
+                    <div>
+                        <md-button aria-label="Adicionar perfil" ng-click="showHistory($event)" ng-if="aplicativos">
+                            Visualizar histórico
+                        </md-button>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+            </content-closed>
+            <content-opened>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-2-line" ng-repeat="aplicativo in aplicativos">
+                            
+                            <img ng-src="{{todos[0].face}}?25" class="md-avatar" alt="{{todos[0].who}}"/>
+
+                            <div class="md-list-item-text">
+                                <h3>{{aplicativo.nome}}</h3>
+                                <p>
+                                    <span style="margin-top: -5px;"
+                                       ng-repeat="perfilAcesso in aplicativo.perfisAcesso">
+                                        {{perfilAcesso.nome}}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="md-list-item-text">
+                                <h3 ng-style="aplicativo.ativo ? {'color': '#00b0ff'} : {'color': '#cccccc'}">
+                                    {{ aplicativo.ativo ? 'ativo' : 'inativo' }}
+                                </h3>
+                            </div>
+
+                            <div class="md-secondary" >
+                                <eits-dropdown icon-menu="md-icon-more-horiz md-icon-lg" class="ng-isolate-scope">
+                                  <md-list-item ng-click="showAddApp($event,model.entity, aplicativo)">
+                                    <p>Editar</p>
+                                  </md-list-item>
+                                  <md-list-item ng-click="removePerfilUsuarioAplicativo(aplicativo, perfisUsuarioAplicativo)">
+                                    <p>Remover</p>
+                                  </md-list-item>
+                                </eits-dropdown>
+                            </div>
+
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+
+                <md-content style="cursor:pointer;" ng-click="showAddApp($event,model.entity)">
+                    
+                    <md-button aria-label="Adicionar Aplicativo" class="md-fab md-hue-2"   style="background-color: #ececec;">
+                        <md-icon class="md-icon-add md-icon-lg" style="color: #999;"></md-icon>
+                    </md-button>
+
+                    <span>Adicionar aplicativo</span>
+                </md-content>
+            </content-opened>
+        </eits-paper-sheet>
+    </div>
+</md-content>
+</html>

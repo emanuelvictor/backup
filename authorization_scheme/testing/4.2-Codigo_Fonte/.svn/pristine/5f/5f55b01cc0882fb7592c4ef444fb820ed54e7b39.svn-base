@@ -1,0 +1,159 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html xmlns:ng="http://angularjs.org" lang="pt">
+
+<md-toolbar class="md-tall">
+
+    <h2 ng-click="changeToList()" class="md-toolbar-tools md-toolbar-tools-bottom">
+        <span class="md-flex">Usuários</span>
+    </h2>
+
+</md-toolbar>
+<!-- style="height: 600px; margin-top:-128px; padding-top: 60px;" -->
+<md-content layout-padding>
+
+    <md-button aria-label="Adicionar Usuário"
+               class="md-fab md-fab-top-right"
+               ng-click="insertHandler()"
+               ng-if="$state.current.name == ADD_STATE">
+        <md-icon class="md-icon-save md-icon-lg"></md-icon>
+    </md-button>
+
+    <md-button aria-label="Editar Usuário"
+               class="md-fab md-fab-top-right"
+               ng-click="updateHandler()"
+               ng-if="$state.current.name == EDIT_STATE">
+        <md-icon class="md-icon-save md-icon-lg"></md-icon>
+    </md-button>
+
+    <div layout-align="center center" style="max-width:800px; margin:0 auto;">
+        <form name="model.form">
+            <div class="eits-paper-sheet-item">
+                <div class="paper-sheet-closed">
+                    <content-open class="ng-scope">
+
+                        <div layout="row" layout-align="center center">
+                            <div flex="20">
+                                <div class="icon">
+                                    <span class="md-caption">{{ $state.current.name == 'ADD_STATE' ? 'Adicionar' : 'Alterar' }}<br>foto</span>
+                                </div>
+                            </div>
+
+                            <div flex="60">
+                                <div layout="column">
+                                    <div layout="row">
+                                        <h1 style="margin: 2px 10px 0 0">{{model.entity.nomeCompleto}}</h1>
+                                        <h5 style="color: #00b0ff ">ativo</h5>
+                                    </div>
+                                    <div>
+                                        <p style="margin-top: 0">{{model.entity.email}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div flex layout-align="end start">
+                                <md-button class="md-icon-button" ng-click="changeToEdit( model.entity.id )"
+                                           aria-label="Detalhes">
+                                    <md-icon class="md-icon-edit md-icon-lg"></md-icon>
+                                </md-button>
+                                <md-button ng-click="bloquearUsuario()" class="md-icon-button" aria-label="Opções">
+                                    <md-icon class="md-icon-keyboard-control md-icon-lg"></md-icon>
+                                </md-button>
+                            </div>
+                        </div>
+                    </content-open>
+                </div>
+            </div>
+            <eits-paper-sheet id="informacoes" on-close="onCloseEventHandler()" on-open="onOpenEventHandler()">
+
+                <content-closed>
+                    <h4>Informações da conta</h4>
+                    <md-divider></md-divider>
+                </content-closed>
+
+                <content-opened>
+                    <div layout="row">
+                        <div flex>
+                            <ul class="details">
+                                <li>
+                                    <p>NIP</p>
+
+                                    <p class="ng-binding">{{model.entity.login}}</p>
+                                </li>
+
+                                <li ng-if="model.entity.dataExpiracaoSenha">
+                                    <p>Expiração de senha</p>
+
+                                    <p class="ng-binding">{{dataExpiracaoSenha}}</p>
+                                </li>
+                            </ul>
+                            <md-divider ng-if="model.entity.dataBloqueio" style="clear:both"></md-divider>
+                            <ul ng-if="model.entity.dataBloqueio" class="details">
+                                <li>
+                                    <p>Início</p>
+
+                                    <p class="ng-binding">{{dataBloqueio}}</p>
+                                </li>
+                                <li>
+                                    <p>Fim</p>
+
+                                    <p class="ng-binding">{{dataDesbloqueio}}</p>
+                                </li>
+                                <li>
+                                    <p>Organização militar</p>
+
+                                    <p class="ng-binding">{{model.entity.organizacaoMilitar}}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </content-opened>
+
+            </eits-paper-sheet>
+        </form>
+        <eits-paper-sheet id="aplicativos" on-close="onCloseEventHandler()"
+                          on-open="listPerfilUsuarioAplicativoByUsuarioId(model.entity.id)">
+            <content-closed>
+                <div layout="row" layout-align="center center">
+                    <h4>Aplicativos</h4>
+                    <span flex></span>
+
+                    <div>
+                        <md-button aria-label="Adicionar perfil" ng-click="showAdvanced($event)"
+                                   ng-if="!model.entity.perfisDinamicos">
+                            Visualizar histórico
+                        </md-button>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+            </content-closed>
+            <content-opened>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="aplicativo in aplicativos">
+                            <img ng-src="{{todos[0].face}}?25" class="md-avatar" alt="{{todos[0].who}}"/>
+
+                            <div class="md-list-item-text">
+                                <h3>{{aplicativo.nome}}</h3>
+
+                                <p>
+                                    <!-- filtrando por endereço do aplicativo,
+                                    não é possível pelo id pois o mesmo pode ser utilizado por outras entidades -->
+                              	<span ng-repeat="perfilUsuarioAplicativo in perfisUsuarioAplicativo | filter:aplicativo.endereco">
+                              	{{perfilUsuarioAplicativo.perfilAcesso.nome}};
+                              	</span>
+                                </p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+
+            </content-opened>
+        </eits-paper-sheet>
+    </div>
+</md-content>
+</html>

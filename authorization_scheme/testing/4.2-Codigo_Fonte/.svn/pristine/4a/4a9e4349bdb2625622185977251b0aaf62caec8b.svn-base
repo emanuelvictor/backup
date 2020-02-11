@@ -1,0 +1,165 @@
+/**
+ * 
+ */
+package br.mil.mar.dabm.singra.domain.entity;
+
+import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotBlank;
+
+import br.com.eits.common.domain.entity.AbstractEntity;
+import br.mil.mar.dpmm.rh.domain.entity.Pessoa;
+
+/**
+ * @author emanuelvictor
+ *
+ */
+@Audited
+@DataTransferObject(javascript = "OrganizacaoMilitar")
+public class OrganizacaoMilitar extends AbstractEntity
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3059807538439716876L;
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	@NotBlank(message = "O nome não pode estar em branco")
+	private String nome;
+
+	/**
+	 * 
+	 */
+	private OrganizacaoMilitar organizacaoMilitarSuperior;
+
+	/**
+	 * 
+	 */
+	private Pessoa administrador;
+
+	/**
+	 * 
+	 */
+	private String sigla;
+
+	/*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	public OrganizacaoMilitar()
+	{
+		super();
+	}
+
+	/**
+	 * @param id
+	 */
+	public OrganizacaoMilitar( Long id )
+	{
+		super( id );
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param nome
+	 * @param organizacaoMilitarSuperior
+	 * @param administrador
+	 * @param sigla
+	 */
+	public OrganizacaoMilitar( Long id, String nome, OrganizacaoMilitar organizacaoMilitarSuperior, Pessoa administrador, String sigla )
+	{
+		super( id );
+		this.nome = nome;
+		this.setOrganizacaoMilitarSuperior( organizacaoMilitarSuperior );
+		this.administrador = administrador;
+		this.sigla = sigla;
+	}
+
+	/*-------------------------------------------------------------------
+	 *						GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+
+	/**
+	 * @param administrador the administrador to set
+	 */
+	public void setAdministrador( Pessoa administrador )
+	{
+		this.administrador = administrador;
+	}
+
+	/**
+	 * @return the organizacaoMilitarSuperior
+	 */
+	public OrganizacaoMilitar getOrganizacaoMilitarSuperior()
+	{
+		return organizacaoMilitarSuperior;
+	}
+
+	/**
+	 * @return the nome
+	 */
+	public String getNome()
+	{
+		return nome;
+	}
+
+	/**
+	 * @param nome the nome to set
+	 */
+	public void setNome( String nome )
+	{
+		this.nome = nome;
+	}
+
+	/**
+	 * @return the sigla
+	 */
+	public String getSigla()
+	{
+		return sigla;
+	}
+
+	/**
+	 * @param sigla the sigla to set
+	 */
+	public void setSigla( String sigla )
+	{
+		this.sigla = sigla;
+	}
+
+	/*-------------------------------------------------------------------
+	 *							BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * @param organizacaoMilitarSuperior the organizacaoMilitarSuperior to set
+	 */
+	public void setOrganizacaoMilitarSuperior( OrganizacaoMilitar organizacaoMilitarSuperior )
+	{
+		if ( organizacaoMilitarSuperior != null && this.id != organizacaoMilitarSuperior.id )
+		{
+			// A organização militar não pode ter como organização militar superior ela mesma
+			this.organizacaoMilitarSuperior = organizacaoMilitarSuperior;
+		}
+	}
+
+	/**
+	 * @return the administrador
+	 */
+	public Pessoa getAdministrador()
+	{
+		if ( this.administrador == null && this.organizacaoMilitarSuperior != null )
+		{
+			return this.organizacaoMilitarSuperior.getAdministrador();
+		}
+		return administrador;
+	}
+
+}

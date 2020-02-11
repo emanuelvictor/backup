@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="pt">
+
+<eits-vbox>
+	
+		<md-toolbar>
+			<h4>Usuarios</h4>
+				
+			<md-chips ng-model="model.filters.terms" md-on-append="changeToList(false)" 
+				placeholder="+ Filtro" secondary-placeholder="Pesquisar...">
+       		</md-chips>
+		</md-toolbar>
+		
+		<md-button class="md-fab md-fab-top-left" ng-click="$state.go( ADD_STATE )">+</md-button>
+
+
+
+		<!--on-item-click="$state.go( DETAIL_STATE, {id:item.id} )"-->
+		<eits-table id="table" content="model.page.content" multi-selection="true" ng-click="replyProfile($event, model.page.content[1])">
+			<columns>
+				<table-column width="40" sortable="false">
+					<column-template>
+						foto
+					</column-template>
+				</table-column>
+				<table-column header="Nome" field="nomeCompleto" sortable="true"/>
+				<table-column header="NIP" field="login" sortable="true"/>
+				<table-column header="Status" field="enabled" sortable="false"/>
+				<table-column width="40" sortable="false">
+					<column-template >
+						dropdown
+						<!--<md-button class="md-icon-button" aria-label="Opções">-->
+							<!--<md-icon class="md-icon-keyboard-control md-icon-lg"></md-icon>-->
+						<!--</md-button>-->
+					</column-template>
+				</table-column>
+			</columns>
+
+<!-- 			<pager> -->
+<!-- 				<infinity-scroll-pager on-scroll-end="changeToList(true)"></infinity-scroll-pager> -->
+<!-- 			</pager> -->
+			
+<!-- 			<filter> -->
+<!-- 				<side-filter filters="filters" title="Filtros" on-filter="changeToList(false)"> -->
+
+<!-- 					<filter-container label="Usuarios Ativos"> -->
+<!-- 						<md-switch ng-model="model.filters.ativo" aria-label="Filtrar por usuarios ativos"></md-switch> -->
+<!-- 					</filter-container> -->
+<!-- 				</side-filter> -->
+<!-- 			</filter> -->
+			
+		</eits-table>
+		
+	</eits-vbox>
+	</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.permissao 
+		id = "1"
+		identificador = "Identificador"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+	<public.permissao 
+		id = "2"
+		permissao_superior_id = "1"
+		identificador = "Identificador 2"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+	<public.permissao 
+		id = "3"
+		permissao_superior_id = "2"
+		identificador = "Identificador 3"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+	<public.permissao 
+		id = "4"
+		permissao_superior_id = "3"
+		identificador = "Identificador 4"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+	<public.permissao 
+		id = "5"
+		permissao_superior_id = "2"
+		identificador = "Identificador 5"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+	<public.permissao 
+		id = "6"
+		identificador = "Usuário ultra, master, blaster"
+		created = "2015-03-30 00:00:00"
+		aplicativo_id = "1"/>
+</dataset>

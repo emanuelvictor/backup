@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-Title: autenticador-client-sample
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: br.mil.mar.dabm.autenticador
+Build-Jdk: 1.7.0_80
+Built-By: emanuelvictor
+Created-By: Maven Integration for Eclipse
+Main-Class: br.mil.mar.dabm.autenticador.client.AutenticadorClientSamp
+ leApplication
+

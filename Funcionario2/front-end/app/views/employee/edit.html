@@ -1,0 +1,42 @@
+<form ng-submit="save(employee)" ng-init="init()" name="form">
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nome</label>
+      <input type="text" ng-model="employee.name" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center">
+    <md-input-container style="width:205px;">
+      <md-select name="select" placeholder="Cargo" ng-model="employee.position" required>
+        <md-select-label>{{ employee.position ? employee.position.name : 'Cargo' }}</md-select-label>
+        <md-option ng-value="position" ng-repeat="position in positions">{{position.name}}</md-option>
+      </md-select>
+      <div class="errors" ng-messages="form.select.$error" ng-if="select.$dirty">
+        <div ng-message="required">Selecione um cargo</div>
+      </div>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Email</label>
+      <input type="email" ng-model="employee.email" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nova senha</label>
+      <input type="password" autocomplete="off" ng-model="employee.password">
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <div class="md-actions" layout="row">
+     <span flex></span>  
+      <md-button type="button" ng-click="remove(employee)">
+        Excluir
+      </md-button>
+      <md-button type="submit" class="md-primary">
+       Atualizar
+      </md-button>
+    </div>
+  </section>
+</form>

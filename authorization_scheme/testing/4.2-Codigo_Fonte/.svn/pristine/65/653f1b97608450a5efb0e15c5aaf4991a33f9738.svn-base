@@ -1,0 +1,47 @@
+/**
+ * 
+ */
+package br.mil.mar.autenticador.test.domain.service;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.mil.mar.commons.dabm.test.domain.AbstractIntegrationTests;
+import br.mil.mar.dabm.autenticador.domain.service.ConfiguracaoService;
+
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+
+/**
+ * @author Boz
+ *
+ */
+public class ConfiguracaoServiceTests extends AbstractIntegrationTests
+{
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	@Autowired
+	private ConfiguracaoService configuracaoService;
+
+	/*-------------------------------------------------------------------
+	 *				 		      TESTS
+	 *-------------------------------------------------------------------*/
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+    { "/dataset/usuario/ConfiguracaoDataSet.xml", })
+	public void updateDiasExpiracaoSenhaMustPass(){
+		Integer novosDiasDeExpiracao = this.configuracaoService.updateDiasExpiracaoSenha( 100 );
+		Assert.assertNotNull( novosDiasDeExpiracao );
+		
+	}
+	
+}

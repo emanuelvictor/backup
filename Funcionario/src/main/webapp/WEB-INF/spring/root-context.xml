@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+
+		http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr/spring-dwr-3.0.xsd"
+       default-autowire="byName">
+
+
+    <context:annotation-config />
+    <context:component-scan base-package="br.com.emanuelvictor.funcionario" />
+
+    <dwr:annotation-config/>
+
+    <dwr:annotation-scan base-package="br.com.emanuelvictor.funcionario.entity"
+                         scanDataTransferObject="true" scanRemoteProxy="false"/>
+
+    <!-- DWR - This is required if you want to configure any beans not managed by Spring.-->
+    <dwr:configuration>
+        <dwr:convert type="bean" class="java.lang.StackTraceElement"/>
+        <dwr:convert type="exception" class="java.lang.Exception"/>
+
+        <dwr:convert type="bean" class="org.springframework.data.domain.PageImpl" javascript="PageImpl"/>
+        <dwr:convert type="bean" class="org.springframework.data.domain.PageRequest" javascript="PageRequest"/>
+        <dwr:convert type="bean" class="org.springframework.data.domain.Sort" javascript="Sort"/>
+        <dwr:convert type="enum" class="org.springframework.data.domain.Sort$Direction"/>
+        <dwr:convert type="enum" class="org.springframework.data.domain.Sort$NullHandling"/>
+        <dwr:convert type="bean" class="org.springframework.data.domain.Sort$Order" javascript="Order"/>
+
+        <dwr:convert type="enum" class="br.com.emanuelvictor.funcionario.entity.public_schema.Perfil" javascript="Perfil"/>
+    </dwr:configuration>
+
+    <jpa:repositories base-package="br.com.emanuelvictor.funcionario.repository"/>
+
+    <bean id="myEmf" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="Funcionario"/>
+        <!--<property name="jpaProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.format_sql">true</prop>-->
+                <!--<prop key="javax.persistence.jdbc.driver">org.postgresql.Driver</prop>-->
+                <!--<prop key="javax.persistence.jdbc.url">jdbc:postgresql://localhost/funcionario</prop>-->
+                <!--<prop key="javax.persistence.jdbc.user">funcionario</prop>-->
+                <!--<prop key="javax.persistence.jdbc.password">funcionario</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="myEmf"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
+
+
+</beans>

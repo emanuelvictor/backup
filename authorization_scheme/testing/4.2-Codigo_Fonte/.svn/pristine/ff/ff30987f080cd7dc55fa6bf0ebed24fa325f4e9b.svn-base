@@ -1,0 +1,67 @@
+package br.mil.mar.dabm.autenticador.client;
+
+import java.util.Arrays;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@EnableOAuth2Client
+@SpringBootApplication
+public class AutenticadorClientSampleApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AutenticadorClientSampleApplication.class, args);
+    }
+
+    @Value("${oauth.resource:http://localhost:8080}")
+    private String baseUrl;
+
+    @Value("${oauth.authorize:http://localhost:8080/oauth/authorize}")
+    private String authorizeUrl;
+
+    @Value("${oauth.token:http://localhost:8080/oauth/token}")
+    private String tokenUrl;
+
+    @Autowired
+    private OAuth2RestOperations restTemplate;
+
+    @RequestMapping("/now")
+    public String now() {
+        return new Date().toString();
+    }
+    
+    @RequestMapping("/")
+    public String home() {
+        return restTemplate.getForObject(baseUrl + "/api/usuarios/principal", String.class);
+    }
+
+    @Bean
+    public OAuth2RestOperations restTemplate(OAuth2ClientContext oauth2ClientContext) {
+        return new OAuth2RestTemplate(resource(), oauth2ClientContext);
+    }
+
+    @Bean
+    protected OAuth2ProtectedResourceDetails resource() {
+        AuthorizationCodeResourceDetails resource = new AuthorizationCodeResourceDetails();
+//		ImplicitResourceDetails resource = new ImplicitResourceDetails();
+        resource.setAccessTokenUri(tokenUrl);
+        resource.setUserAuthorizationUri(authorizeUrl);
+        resource.setClientId("b77c1257-6549-43dc-9696-a9018c92a227");
+        resource.setScope(Arrays.asList("FULL"));
+        return resource;
+    }
+
+}

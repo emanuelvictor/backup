@@ -1,0 +1,43 @@
+<md-toolbar md-scroll-shrink id='toolbarAlunos' style="box-shadow: none; min-height: 96px; ">
+
+
+	<div class="md-toolbar-tools" style="min-height: 146px">
+
+		<md-button ng-click="$state.go('alunosnew')"  ng-style="!showAddButton() ? {'-webkit-transition': 'opacity 0.5s',	'transition': 'opacity 0.5s', 'opacity': '0'}:{}" class="md-fab" aria-label="Eat cake"
+		           style="margin-left: 50px;margin-top: 42px;background-color: rgb(255, 82, 82);">
+			<!--<md-icon md-svg-src="img/icons/cake.svg"></md-icon>-->
+		</md-button>
+		<h3 style="margin-left: 35px;" ng-style="showLabelAlunos ? {'-webkit-transition': 'opacity 0.5s',	'transition': 'opacity 0.5s', 'opacity': '0'}:{}">
+			<span style="font-size: 17px">Todos os alunos</span>
+		</h3>
+
+	</div>
+
+</md-toolbar>
+
+
+<md-content flex scroll-position="scroll">
+	<section>
+		<md-list>
+			<md-list-item class="md-3-line" style="height: 60px;min-height: 60px; margin-top: -8px;">
+				<div class="md-list-item-text" style="padding-left: 150px; padding-right:150px ">
+
+					Todos os alunos
+				</div>
+				<md-divider inset></md-divider>
+			</md-list-item>
+			<md-list-item class="md-3-line" ng-repeat="item in todos">
+				<div class="md-list-item-text" style="padding-left: 50px; padding-right:50px ">
+					<h3>asdfasdfa</h3>
+					<h4>asdfasdfa</h4>
+					<p>
+						asdfasdfa
+					</p>
+				</div>
+			</md-list-item>
+		</md-list>
+	</section>
+</md-content>
+
+
+

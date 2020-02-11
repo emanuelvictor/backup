@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.usuario
+		id="1"
+		email="emanuel.fonseca@eits.com.br"
+		login="user01"
+		senha="d8ae1979979fbd2202af24e191525db442b833ee"
+		data_alteracao_senha="2015-06-01 00:00:00"
+		data_exclusao="2015-01-01 00:00:00"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2015-02-02 00:00:00"
+		nome_completo="Emanuel Victor"
+		created="2015-04-28 00:00:00"/>
+	<public.usuario
+		id="2"
+		created="2015-03-30 00:00:00"
+		email="usuario002@testing.com"
+		login="user02"
+		data_exclusao="2015-01-01 00:00:00"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2015-08-08 00:00:00"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		nome_completo="User 001"/>
+	<public.usuario
+		id="3"
+		created="2015-03-30 00:00:00"
+		email="usuario003@testing.com"
+		login="user03"
+		data_exclusao="2015-01-01 00:00:00"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2015-08-08 00:00:00"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		nome_completo="User 002"/>
+	<public.usuario
+		id="4"
+		created="2015-03-30 00:00:00"
+		email="usuario004@testing.com"
+		login="user04"
+		data_exclusao="2015-01-01 00:00:00"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2015-08-08 00:00:00"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		nome_completo="User 003"/>
+		
+</dataset>

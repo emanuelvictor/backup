@@ -1,0 +1,38 @@
+<md-dialog aria-label="Cargos" ng-init="init()">
+  <md-content style="overflow:hidden;margin-bottom:-25px">
+    <md-input-container>
+      <label>Cargo</label>
+      <input ng-model="editCargo.nome" >
+       <select ng-model="editCargo.perfil">
+         <option>ADMINISTRADOR</option>
+         <option>USUARIO</option>
+       </select>
+    </md-input-container>
+  </md-content>
+  <md-content>
+    <md-list>
+      <md-item style="cursor:pointer">
+        <md-item-content ng-repeat="cargo in cargos">
+          <div class="md-tile-content" ng-click="edit(cargo)">
+            <h3>{{cargo.nome}}</h3>
+          </div>
+        </md-item-content>
+      </md-item>
+    </md-list>
+  </md-content>
+  <div class="md-actions" layout="row">
+   <span flex></span>
+    <md-button ng-click="search(editCargo)">
+      Consultar
+    </md-button>
+    <md-button ng-disabled="!editCargo.id" ng-click="delete(editCargo)">
+      Excluir
+    </md-button>
+    <md-button ng-click="clear()">
+      Limpar
+    </md-button>
+    <md-button ng-disabled="!editCargo.nome" ng-click="save(editCargo)" class="md-primary">
+     Salvar
+    </md-button>
+  </div>
+</md-dialog>

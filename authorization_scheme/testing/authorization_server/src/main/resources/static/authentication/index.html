@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="pt">
+
+	<head>
+		<title>Autenticação do Usuário</title>
+
+
+		<!-- Angular Material CSS now available via Google CDN; version 0.10 used here -->
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
+
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+	</head>
+	
+	<body ng-app="Authentication" layout-align="center" layout="row" style="background: rgb(236, 236, 236)" >
+	
+		<div ng-controller="SigninController" layout-align="center center" layout="column">
+
+			<form name="authenticationForm"
+				  layout="column" layout-align="start center" ng-submit="signin(userAccount)" class="md-whiteframe-z1"
+				  style="padding: 40px 90px 0px 90px; width: 480px; height: 480px ; background-color: #FFFFFF">
+
+				<h4>Login de acesso</h4>
+
+				<md-input-container style="width: 300px ; margin-top: 45px">
+					<label>NIP:</label>
+					<input type="text" ng-model="userAccount.username" required>
+				</md-input-container>
+				<md-input-container style="width: 300px">
+					<label>Senha:</label>
+					<input type="password" ng-model="userAccount.password" required>
+				</md-input-container>
+
+				<md-button type="submit" class="md-raised md-warn" style="width: 100% ; height: 60px; margin-top: 45px" >
+					Acessar
+				</md-button>
+				
+				<md-button type="button" ng-click="saia()" class="md-raised md-warn" style="width: 100% ; height: 60px; margin-top: 45px" >
+					Acessar
+				</md-button>
+
+			</form>
+		    
+		</div>
+		<!-- Angular Material Dependencies -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-aria.min.js"></script>
+		<script src="https://code.angularjs.org/1.3.15/angular-cookies.js"></script>
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		
+
+		<!-- Angular Material Javascript now available via Google CDN; version 0.10 used here -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
+
+		<script src="./authentication/signin-controller.js"></script>
+	</body>
+</html>

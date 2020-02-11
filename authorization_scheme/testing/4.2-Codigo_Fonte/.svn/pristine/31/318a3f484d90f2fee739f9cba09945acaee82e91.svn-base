@@ -1,0 +1,75 @@
+CREATE SCHEMA IF NOT EXISTS "public";
+CREATE SCHEMA IF NOT EXISTS "auditoria";
+CREATE EXTENSION IF NOT EXISTS UNACCENT SCHEMA PG_CATALOG;
+
+
+CREATE TABLE usuario
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  email character varying(100),
+  login character varying(50) NOT NULL,
+  nome_completo character varying(50) NOT NULL,
+  senha character varying(100) NOT NULL,
+  pessoa bytea,
+  CONSTRAINT usuario_pkey PRIMARY KEY (id),
+  CONSTRAINT uk_usuario_email UNIQUE (email),
+  CONSTRAINT uk_usuario_login UNIQUE (login)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE aplicativo
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  ativo boolean NOT NULL,
+  codigo character varying(255) NOT NULL,
+  descricao character varying(144),
+  endereco character varying(255) NOT NULL,
+  nome character varying(144) NOT NULL,
+  refresh_token  character varying(144) NOT NULL,
+  perfis_dinamicos boolean NOT NULL,
+  versao character varying(144) NOT NULL,
+  versao_estavel_id bigint,
+  mensagem_desativacao text,
+  CONSTRAINT aplicativo_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_aplicativo_versao_estavel_id FOREIGN KEY (versao_estavel_id)
+      REFERENCES aplicativo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_aplicativo_codigo UNIQUE (codigo)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tipo_acesso_aplicativo
+(
+  aplicativo_id bigint NOT NULL,
+  tipos_acesso_aplicativo integer NOT NULL,
+  CONSTRAINT tipo_acesso_aplicativo_pkey PRIMARY KEY (aplicativo_id, tipos_acesso_aplicativo),
+  CONSTRAINT fk_tipo_acesso_aplicativo_aplicativo_id FOREIGN KEY (aplicativo_id)
+      REFERENCES aplicativo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+INSERT INTO usuario(created, email, login, nome_completo, senha)
+	 VALUES (NOW(), 'test@test.com', 'test', 'Usuário Teste', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');
+
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, 'b77c1257-6549-43dc-9696-a9018c92a227', 'b77c1257-6549-43dc-9696-a9018c92a227', 'http://localhost:8081/client', 'App Test', FALSE, '1.0.0-SNAPSHOT');
+
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 0);
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 1);
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 2);
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 3);

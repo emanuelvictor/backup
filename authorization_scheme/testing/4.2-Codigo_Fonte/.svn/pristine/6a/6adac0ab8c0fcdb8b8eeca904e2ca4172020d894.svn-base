@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .box-shadow {
+            -webkit-box-shadow: 0 4px 30px -10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 30px -10px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 4px 30px -10px rgba(0, 0, 0, 0.5);
+            background-color:rgb(255, 255, 255);;
+        }
+        .background-content {
+            /*height: 100%;*/
+            /*background-color:rgb(2, 119, 189);
+            background-size: 50% 100%;*/
+            
+            -webkit-background : linear-gradient(0deg, rgb(236, 236, 236) 65%, rgb(2, 119, 189) 65%);
+            background: linear-gradient(0deg, rgb(236, 236, 236) 65%, rgb(2, 119, 189) 65%);
+
+        }
+    </style>
+</head>
+<body  style="background-color:rgb(236, 236, 236)">
+<table class="background-content" style="padding: 90px;font-family: sans-serif; margin: 0 auto;" width="800" >
+
+    <tr>
+        <td><h2 style="padding-left: 40px; color:rgb(187, 222, 251); ">Autenticação DAbM</h2></td>
+    </tr>
+
+    <tr >
+        <td class="box-shadow">
+            <h4 style="color: rgb(126, 125, 125); padding: 20px 0 0 20px;">Criação de email para acesso a DAbM</h4>
+
+            <h5 style="text-align: justify; color: darkgray; padding:20px 0 0 20px; padding-right: 20px;margin-bottom: 100px">
+                No entanto, não podemos esquecer que a necessidade de renovação processual facilita a criação dos
+                paradigmas corporativos. Desta maneira, o desafiador cenário globalizado acarreta um processo de
+                reformulação e modernização das diretrizes de desenvolvimento para o futuro. A certificação de
+                metodologias que nos auxiliam a lidar com o desenvolvimento contínuo de distintas formas de atuação
+                assume importantes posições no estabelecimento das condições financeiras e administrativas exigidas. Do
+                mesmo modo, o comprometimento entre as equipes deve passar por modificações independentemente das regras
+                de conduta normativas. É claro que o novo modelo estrutural aqui preconizado promove a alavancagem do
+                fluxo de informações.
+            </h5>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;display:block;font-size:11px;color:#6b6b6b;font-family: arial;margin-top:30px;">
+            DAbM © 2015
+        </td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html> -->
+<!-- <html> -->
+<!-- 	<head> -->
+<!-- 	    <meta charset="UTF-8"> -->
+<!-- 	</head> -->
+<!-- 	<body style="background-color:#f0f0f0;"> -->
+<!-- 		<table border="0"> -->
+<!-- 			<tr> -->
+<!-- 				<td height="75">&nbsp;</td> -->
+<!-- 			</tr> -->
+<!-- 		</table> -->
+		
+<!-- 	    <table width="600" border="0" style="font-size:14px;font-family: 'Arial';background-color:#ffffff;margin-left: auto;margin-right: auto;box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);border-radius: 3px;" cellspacing="0" cellpadding="10"> -->
+<!-- 	        <tr> -->
+<!-- 	        	<td colspan="4" height="13"></td> -->
+<!-- 	        </tr> -->
+	        
+<!-- 	        <tr> -->
+<!-- 	            <td>&nbsp;</td> -->
+<!-- 	            <td width="348"><h2>Exemplo de Email</h2> </td> -->
+<!-- 	            <td>&nbsp;</td> -->
+<!-- 	        </tr> -->
+	        
+<!-- 	        <tr> -->
+<!-- 	        	<td colspan="4" height="11"></td> -->
+<!-- 	        </tr> -->
+	        
+<!-- 	        <tr> -->
+<!-- 	            <td colspan="4" height="5"> -->
+<!-- 	                <div style="height:2px;background-color:#f0f0f0;margin-top:-12px;margin-left:-10px;margin-right:-10px;"></div> -->
+<!-- 	            </td> -->
+<!-- 	        </tr> -->
+	        
+<!-- 	        <tr> -->
+<!-- 	            <td>&nbsp;</td> -->
+<!-- 	            <td colspan="2"> -->
+<!-- 	                <p> -->
+<!-- 	                    <span style="font-size:18px;">Olá ${usuario.nomeCompleto}</span> -->
+<!-- 	                </p> -->
+	                
+<!-- 	                <p style="margin-top:19px;line-height:27px;"> -->
+<!-- 	                	Este é apenas um email de testes. -->
+<!-- 	                <br/> -->
+<!-- 	                <br/> -->
+<!-- 	                </p> -->
+<!-- 	            </td> -->
+<!-- 	            <td>&nbsp;</td> -->
+<!-- 	        </tr> -->
+	        
+<!-- 	        <tr> -->
+<!-- 	            <td colspan="4" height="5"> -->
+<!-- 	                <div style="height:2px;background-color:#f0f0f0;margin-top:-3px;margin-left:-10px;margin-right:-10px;"></div> -->
+<!-- 	            </td> -->
+<!-- 	        </tr> -->
+	        
+<!-- 	        <tr> -->
+<!-- 	            <td>&nbsp;</td> -->
+<!-- 	            <td colspan="2"> -->
+<!-- 	            </td> -->
+<!-- 	            <td>&nbsp;</td> -->
+<!-- 	        </tr> -->
+<!-- 	    </table> -->
+	
+<!-- 	    <label style="text-align: center;display:block;font-size:11px;color:#6b6b6b;font-family: arial;margin-top:30px;">Todos os direitos reservados</label> -->
+	
+<!-- 		<table border="0"> -->
+<!-- 			<tr> -->
+<!-- 				<td height="75">&nbsp;</td> -->
+<!-- 			</tr> -->
+<!-- 		</table> -->
+<!-- 	</body> -->
+<!-- </html> -->

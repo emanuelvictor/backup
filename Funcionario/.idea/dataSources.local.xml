@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - funcionario@localhost" uuid="12e344eb-0d26-4bd7-8ea0-f2bd734bce6a">
+      <database-info product="PostgreSQL" version="9.3.11" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>funcionario</user-name>
+      <introspection-schemas>funcionario:pg_catalog,public</introspection-schemas>
+      <resolve-scope>funcionario:pg_catalog,public</resolve-scope>
+      <unqualified-resolve-schemas>funcionario:pg_catalog,public</unqualified-resolve-schemas>
+    </data-source>
+  </component>
+</project>

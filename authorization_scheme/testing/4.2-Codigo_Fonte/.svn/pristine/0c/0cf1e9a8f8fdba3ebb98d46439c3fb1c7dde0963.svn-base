@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<md-dialog md-theme="default" aria-label="Perfil de acesso" style="width: 700px">
+
+    <md-dialog-content >
+    <md-content layout-padding layout="column">
+<!--          <md-chips ng-model="aplicativosSelecionados" > -->
+<!--          descobrir forma de fazer assíncrona, componentes chips e md-complete 
+                não irão suprir. O funcionamento deve ser : 
+                preenche o campo=>requisita os dados no back-end, sem delay no frontend -->
+                <md-autocomplete 
+                       md-search-text="searchText"
+                       md-selected-item-change="selectedItens(selectedItem)"
+                       md-item-text="aplicativo.nome"
+                
+                md-search-text-change="getAplicativos(searchText)"
+                        md-selected-item="selectedItem"
+                        md-search-text="searchText"
+                        md-items="aplicativo in querySearch(searchText)"
+                        md-no-cache="true"
+                        md-menu-class="menu-chips"
+                        md-autoselect="true"
+                        placeholder="Pesquisar aplicativos">
+<!--                     <span md-highlight-text="searchText">{{aplicativo.nome}}</span> -->
+                </md-autocomplete>
+<!--                 <md-chip-template>
+                    <span>
+                      <strong>{{$chip.nome}}</strong>
+                    </span>
+                </md-chip-template> -->
+            </md-chips>
+            
+        <md-divider></md-divider>
+        
+        <md-content style="max-height: 300px;">            
+          <md-list>              
+            <md-list-item class="md-2-line" ng-repeat="aplicativo in aplicativos">
+                            
+                    <img ng-src="{{todos[0].face}}?25" class="md-avatar" alt="{{todos[0].who}}"/>
+
+                    <div class="md-list-item-text">
+                        <h3>{{aplicativo.nome}}</h3>
+                        <p ng-if="aplicativo.descricao">
+                            {{aplicativo.descricao}}
+                        </p>
+                    </div>
+
+
+
+                    <div class="md-list-item-text" >
+                        <span ng-if="aplicativo.ativo" style="color: #00b0ff; margin-left:80px">ativo</span>
+                        <span ng-if="!aplicativo.ativo" style="color: #cccccc; margin-left:80px">inativo</span>
+                    </div>
+
+                    <div class="md-list-item-text">
+                        <md-select placeholder="Administrador, Atendente" ng-model="model"  style="  margin: 0;width:100%"  md-on-open="getPerfisAplicativo(aplicativo.id)">
+                            <md-select-label style="color: #888181;" >{{(perfisUsuario|arrayToString:aplicativo.id).length>0 ? (perfisUsuario|arrayToString:aplicativo.id|ellipsis:15) : 'Selecione perfis'}}</md-select-label>
+                            <md-option class="perfil-aplicativo" ng-repeat="item in perfisAplicativo"
+                                       ng-click="toggle(item, perfisUsuario)">
+                                <md-checkbox ng-checked="!(exists(item, perfisUsuario)<0)">
+                                    {{ item.nome }}
+                                </md-checkbox>
+                            </md-option>
+                        </md-select> 
+                    </div>
+
+              </md-list-item>
+            </md-list>                        
+        </md-content>
+        
+        <md-divider></md-divider>
+        
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="answer('not useful')">
+                Sair
+            </md-button>
+        </div>
+        </md-content>
+    </md-dialog-content>
+
+</md-dialog>

@@ -1,0 +1,27 @@
+server:
+    port: 8080
+    contextPath: /auth-engine #Lembrar de remover contexto quando for implantar
+#    tomcat:
+#          access_log_enabled: true
+#          basedir: target/tomcat
+security:
+    basic:
+        enabled: false
+
+logging:
+    level:
+        org.springframework.security: DEBUG
+
+#spring:
+#    datasource:
+#        username: root
+#        password: admin
+#        driverClassName: com.mysql.jdbc.Driver
+#        url: jdbc:mysql://127.0.0.1:3306/authorization_server
+#    jpa:
+#        show-sql: true
+#        hibernate:
+#            ddl-auto: update
+#        database-platform: org.hibernate.dialect.MySQLDialect
+#    thymeleaf:
+#            cache: false

@@ -1,0 +1,14 @@
+<div class="md-toolbar-tools">
+  <span>{{user.name}}</span>
+
+  <span flex></span>
+  <md-button ng-if="user.email" ng-click="managePositions()">
+    Cargos
+  </md-button>
+  <md-button ng-if="user.email" ng-click="handler()">
+    {{nameButtonEmployee}}
+  </md-button>
+  <md-button ng-click="logout()">
+    Sair
+  </md-button>
+</div>

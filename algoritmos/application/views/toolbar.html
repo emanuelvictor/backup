@@ -1,0 +1,66 @@
+<md-toolbar class="md-menu-toolbar">
+<div>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings" ng-click="ctrl.toggleRight()">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Artificial Inteligence Study</span>
+            </h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+</div>
+<div layout="row">
+    <md-menu-bar>
+        <md-menu>
+            <button ng-click="$mdOpenMenu()">
+                Meta heuristics
+            </button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-menu>
+                        <md-button ng-click="$mdOpenMenu()">Traveling salesman problem</md-button>
+                        <md-menu-content>
+                            <md-menu-item><md-button ng-href="#/genetic">Genetic Algorithm Solution</md-button></md-menu-item>
+                            <md-menu-item><md-button ng-href="#/memetic">Memetic Algorithm Solution</md-button></md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item>
+                                <md-button ng-href="#/aboutTravelingSalesmanProblem">
+                                    About traveling salesman problem
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button disabled="disabled" ng-click="$mdOpenMenu()">
+                        Knapsack problem (in construction)
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button disabled="disabled" ng-click="$mdOpenMenu()">
+                        N-queens problem (in construction)
+                    </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button ng-href="#/aboutMetaHeuristics">
+                        About meta heuristics
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-menu>
+            <button disabled="disabled" ng-click="$mdOpenMenu()">
+                Neural network (in construction)
+            </button>
+            <md-menu-content>
+
+            </md-menu-content>
+        </md-menu>
+    </md-menu-bar>
+
+</div>
+</md-toolbar>

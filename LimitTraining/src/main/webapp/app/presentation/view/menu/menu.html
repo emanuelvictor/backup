@@ -1,0 +1,22 @@
+<section ng-controller="MenuCtrl" layout="row" flex>
+    <div class="md-toolbar-tools" ng-controller="MenuCtrl">
+        <md-button ng-click="openDrawer()">
+            GAVETA
+        </md-button>
+        <span>{{usuario.nome}}</span>
+
+        <span flex></span>
+        <md-button ng-click="gerenciarCargos()">
+            Cargos
+        </md-button>
+        <md-button ng-click="gerenciarEmpresas()">
+            Empresas
+        </md-button>
+        <md-button ng-click="handler()">
+            {{nameButtonFuncionario}}
+        </md-button>
+        <md-button href="/LimitTraining/logout">
+            Sair
+        </md-button>
+    </div>
+</section>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.perfil_acesso
+		id = "1"
+		nome = "Perfil de acesso"
+		aplicativo_id = "1"
+		editavel = "true"
+		removivel = "true"
+		dias_expiracao_senha = "90"
+		created = "2015-03-30 00:00:00"
+	/>
+	<public.perfil_acesso
+		id="2"
+		created="2015-03-30 00:00:00"
+		dias_expiracao_senha="90"
+		editavel="true"
+		removivel="true"
+		aplicativo_id="1"
+		nome="Perfil de acesso 2 "/>
+	<public.perfil_acesso
+		id="3"
+		created="2015-03-30 00:00:00"
+		dias_expiracao_senha="90"
+		editavel="true"
+		removivel="true"
+		aplicativo_id="2"
+		nome="Perfil de acesso 1"/>
+	<public.perfil_acesso
+		id="4"
+		created="2015-03-30 00:00:00"
+		dias_expiracao_senha="90"
+		editavel="true"
+		removivel="true"
+		aplicativo_id="2"
+		nome="Perfil de acesso 2"/>
+	<public.perfil_acesso
+		id="5"
+		created="2015-03-30 00:00:00"
+		dias_expiracao_senha="90"
+		editavel="true"
+		removivel="true"
+		aplicativo_id="3"
+		nome="Perfil de acesso 1" />
+	<public.perfil_acesso
+		id="6"
+		created="2015-03-30 00:00:00"
+		dias_expiracao_senha="90"
+		editavel="true"
+		removivel="true"
+		aplicativo_id="3"
+		nome="Perfil de acesso 2"/>
+	<public.perfil_acesso
+		id="401"
+		created="2015-03-30 00:00:00"
+		dias_expiracao_senha="90"
+		editavel="true"
+		removivel="true"
+		aplicativo_id="3"
+		nome="Perfil de acesso 2"/>	
+</dataset>

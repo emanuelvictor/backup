@@ -1,0 +1,13 @@
+<md-dialog aria-label="Cargos" ng-init="init()">
+  <md-content>
+    <md-list>
+	    <md-item style="cursor:pointer">
+	      <md-item-content ng-repeat="cargo in cargos">
+	        <div class="md-tile-content" ng-click="select(cargo)">
+	          <h3>{{cargo.nome}}</h3>
+	        </div>
+	      </md-item-content>
+	    </md-item>
+	  </md-list>
+	</md-content>
+</md-dialog>

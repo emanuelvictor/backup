@@ -1,0 +1,269 @@
+/**
+ * 
+ */
+package br.mil.mar.dabm.autenticador.domain.entity.aplicativo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import br.com.eits.common.domain.entity.AbstractEntity;
+
+/**
+ * @author emanuelvictor
+ *
+ */
+@Entity
+@Audited
+@DataTransferObject(javascript = "PerfilAcesso")
+@Table(uniqueConstraints =
+{ @UniqueConstraint(columnNames =
+{ "id", "nome", "aplicativo_id" }) })
+// TODO testar no contexto transacional (Serviços)
+// Restrição de chave única entre o id do aplicativo, o id do perfil de acesso e o nome do perfil de acesso.
+// Dessa forma um aplicativo só pode ter um perfil com determinado nome, porém o nome do perfil pode ser reutilizado em outros aplicativos. 
+// Assim não sendo único na base de dados
+public class PerfilAcesso extends AbstractEntity
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 137041957827618469L;
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	@Column(nullable = false)
+	private Boolean editavel;
+	/**
+	 * 
+	 */
+	@Column(nullable = false)
+	private Boolean removivel;
+	/**
+	 * 
+	 */
+	@NotEmpty(message = "O nome do perfil não pode estar em branco")
+	@Column(length = 144, nullable = false)
+	private String nome;
+	/**
+	 * 
+	 */
+	@Column(length = 144)
+	private String descricao;
+
+	/**
+	 * 
+	 */
+	@ManyToOne(optional = false)
+	private Aplicativo aplicativo;
+
+	/**
+	 * 
+	 */
+	@ManyToOne(optional = true)
+	private PerfilAcesso perfilAcessoSuperior;
+
+	/**
+	 * 
+	 */
+	// TODO não é obrigarótio mas testar para que não seja salvo negativo
+	@Column(nullable = true)
+	private Integer diasExpiracaoSenha;
+
+	/*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	public PerfilAcesso()
+	{
+		super();
+	}
+
+	/**
+	 * @param id
+	 */
+	public PerfilAcesso( Long id )
+	{
+		super( id );
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param editavel
+	 * @param removivel
+	 * @param nome
+	 * @param descricao
+	 * @param aplicativo
+	 * @param perfilAcessoSuperior
+	 * @param diasExpiracaoSenha
+	 */
+	public PerfilAcesso( Long id, Boolean editavel, Boolean removivel, String nome, String descricao, Aplicativo aplicativo, PerfilAcesso perfilAcessoSuperior, Integer diasExpiracaoSenha )
+	{
+		super( id );
+		this.setEditavel( editavel );
+		this.setRemovivel( removivel );
+		this.setNome( nome );
+		this.setDescricao( descricao );
+		this.setAplicativo( aplicativo );
+		this.setPerfilAcessoSuperior( perfilAcessoSuperior );
+		this.setDiasExpiracaoSenha( diasExpiracaoSenha );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param nome
+	 * @param aplicativo
+	 */
+	public PerfilAcesso( Long id, String nome, Aplicativo aplicativo )
+	{
+		super( id );
+		this.setNome( nome );
+		this.setAplicativo( new Aplicativo( aplicativo.getId() ) );
+	}
+	/*-------------------------------------------------------------------
+	 *							BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * @param diasExpiracaoSenha the diasExpiracaoSenha to set
+	 */
+	public void setDiasExpiracaoSenha( Integer diasExpiracaoSenha )
+	{
+		// Se o perfil de acesso for editável faça
+		if ( editavel )
+		{// Se os dias de expiração de senha forem nulos, os valores serão setados como nulos na base de dados
+			if ( diasExpiracaoSenha == null )
+			{
+				this.diasExpiracaoSenha = null;
+			}
+			// Senão e se forem maior que zero seta o valor maior que zero
+			else if ( diasExpiracaoSenha > 0 )
+			{
+				this.diasExpiracaoSenha = diasExpiracaoSenha;
+			}
+		}
+	}
+	
+	/**
+	 * @param perfilAcessoSuperior the perfilAcessoSuperior to set
+	 */
+	public void setPerfilAcessoSuperior( PerfilAcesso perfilAcessoSuperior )
+	{
+		if ( editavel )
+		{
+			this.perfilAcessoSuperior = perfilAcessoSuperior;
+		}
+	}
+	
+	/**
+	 * @param aplicativo the aplicativo to set
+	 */
+	public void setAplicativo( Aplicativo aplicativo )
+	{
+		this.aplicativo = aplicativo;
+	}
+	
+	/*-------------------------------------------------------------------
+	 *						GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * @return the editavel
+	 */
+	public Boolean getEditavel()
+	{
+		return editavel;
+	}
+
+	/**
+	 * @return the aplicativo
+	 */
+	public Aplicativo getAplicativo()
+	{
+		return aplicativo;
+	}
+
+	/**
+	 * @return the perfilAcessoSuperior
+	 */
+	public PerfilAcesso getPerfilAcessoSuperior()
+	{
+		return perfilAcessoSuperior;
+	}
+
+	/**
+	 * @param editavel the editavel to set
+	 */
+	public void setEditavel( Boolean editavel )
+	{
+		this.editavel = editavel;
+	}
+
+	/**
+	 * @return the removivel
+	 */
+	public Boolean getRemovivel()
+	{
+		return removivel;
+	}
+
+	/**
+	 * @param removivel the removivel to set
+	 */
+	public void setRemovivel( Boolean removivel )
+	{
+		this.removivel = removivel;
+	}
+
+	/**
+	 * @return the nome
+	 */
+	public String getNome()
+	{
+		return nome;
+	}
+
+	/**
+	 * @param nome the nome to set
+	 */
+	public void setNome( String nome )
+	{
+		this.nome = nome;	
+	}
+
+	/**
+	 * @return the descricao
+	 */
+	public String getDescricao()
+	{
+		return descricao;
+	}
+
+	/**
+	 * @param descricao the descricao to set
+	 */
+	public void setDescricao( String descricao )
+	{
+		this.descricao = descricao;
+	}
+
+	/**
+	 * @return the diasExpiracaoSenha
+	 */
+	public Integer getDiasExpiracaoSenha()
+	{
+		return diasExpiracaoSenha;
+	}
+}

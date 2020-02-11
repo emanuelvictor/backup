@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Artificial Intelligence Study</title>
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    
+    <style>
+       body {
+            background: #F1F1F1;
+       }
+
+      .menuBardemoBasicUsage .page-container {
+        background-color: #f1f1f1;
+        padding: 32px; }
+
+      .menuBardemoBasicUsage .page {
+        margin: 0 auto;
+        background-color: white;
+        padding: 24px;
+        max-width: 1024px;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.25); }
+
+      .menuBardemoBasicUsage .page h1 {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-top: 0;
+        font-weight: normal; }
+
+      .menuBardemoBasicUsage .page p {
+        line-height: 1.6rem; }
+    </style>
+    
+    <script src="algorithms/genetic/algorithm/Plane.js"></script>
+    <script src="algorithms/genetic/algorithm/Algorithm.js"></script>
+    
+  </head>
+
+  <body ng-app="InteligenceArtificialStudyApp">
+    <div ng-controller="DemoBasicCtrl as ctrl" ng-cloak="" class="menuBardemoBasicUsage">
+
+      <div ng-include="'./application/views/toolbar.html'"></div>
+      <div ng-include="'./application/views/sidenav.html'"></div>
+
+      <div class="page-container">
+        <div class="page">
+          <div ng-view="">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+    <!-- Angular Material Icons v0.6.0 -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
+    
+    <!-- to icons efects 'SVG-Morpheus' -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script> 
+
+    <!-- Angular application -->
+    <script src="application/Application.js"></script>
+
+    <!--Import controllers-->
+    <script src="algorithms/genetic/application/GeneticCtrl.js"></script>
+  </body>
+</html>

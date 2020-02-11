@@ -1,0 +1,30 @@
+<form ng-submit="save()">
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nome</label>
+      <input type="text" ng-model="newFuncionario.nome" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" ng-click="selectCargo()" layout-align="center center">
+    <md-input-container style="cursor:pointer">
+      <label>Cargo</label>
+      <input type="text" ng-model="newFuncionario.cargo.nome" style="cursor:pointer" required readonly>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Email</label>
+      <input type="email" ng-model="newFuncionario.email" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Senha</label>
+      <input type="password" ng-model="newFuncionario.password" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-button class="md-raised md-primary" type="submit" 
+    ng-disabled="!newFuncionario.nome||!newFuncionario.cargo.id||!newFuncionario.email||!newFuncionario.password">Salvar</md-button>
+  </section>
+</form>

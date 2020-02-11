@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ponto android</string>
+    <string name="date">Data</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="username">Nome de Usuário</string>
+    <string name="password">Senha</string>
+    <string name="sign_in">Entrar</string>
+    <string name="login_password_blank">Informe um nome de usuário e senha</string>
+    <string name="manual_change">Alteração Manual</string>
+    <string name="morning">Manhã</string>
+    <string name="afternoon">Tarde</string>
+    <string name="entry">Entrada</string>
+    <string name="exit">Saída</string>
+    <string name="balance">Saldo:</string>
+    <string name="balance_day">Saldo do dia</string>
+    <string name="hit">Bater o Ponto</string>
+    <string name="exporting">Dados sendo exportados, aguarde!</string>
+    <string name="confirm">Deseja realizar ação?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="importer">Importar</string>
+    <string name="deletespot">Excluir Ponto</string>
+    <string name="shutdown">Sair</string>
+    <string name="history">Histórico</string>
+    <string name="empty_hour">--:--</string>
+    <string name="dont_forget_form">Não esqueça de fazer o formulário!</string>
+    <string name="more_than_four">São somente 4 pontos por dia!</string>
+    <string name="saved">Ponto inserido com sucesso!</string>
+    <string name="save_error">Erro ao inserir!</string>
+    <string name="export">Exportar</string>
+    <string name="import_from_csv">Importar de um arquivo CSV</string>
+    <string name="import_from_json">Importar de um arquivo Json</string>
+    <string name="export_to_json">Exportar para formato JSON</string>
+    <string name="export_to_csv">Exportar para formato CSV</string>
+
+    <!-- tags -->
+
+    <string name="main_activity">main_activity</string>
+    <string name="main_fragment">main_fragment</string>
+    <string name="view_pager">view_pager</string>
+    <string name="container_frame1">container_frame1</string>
+    <string name="container_frame2">container_frame2</string>
+    <string name="obs">Observações:</string>
+</resources>

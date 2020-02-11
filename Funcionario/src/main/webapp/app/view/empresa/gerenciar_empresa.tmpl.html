@@ -1,0 +1,34 @@
+<md-dialog aria-label="Empresas" ng-init="init()">
+  <md-content style="overflow:hidden;margin-bottom:-25px">
+    <md-input-container>
+      <label>Empresa</label>
+      <input ng-model="editEmpresa.cnpj" >
+    </md-input-container>
+  </md-content>
+  <md-content>
+    <md-list>
+      <md-item style="cursor:pointer">
+        <md-item-content ng-repeat="empresa in empresas">
+          <div class="md-tile-content" ng-click="edit(empresa)">
+            <h3>{{empresa.cnpj}}</h3>
+          </div>
+        </md-item-content>
+      </md-item>
+    </md-list>
+  </md-content>
+  <div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="search(editEmpresa)">
+      Consultar
+    </md-button>
+    <md-button ng-disabled="!editEmpresa.id" ng-click="delete(editEmpresa)">
+      Excluir
+    </md-button>
+    <md-button ng-click="clear()">
+      Limpar
+    </md-button>
+    <md-button ng-disabled="!editEmpresa.cnpj" ng-click="save(editEmpresa)" class="md-primary">
+      Salvar
+    </md-button>
+  </div>
+</md-dialog>

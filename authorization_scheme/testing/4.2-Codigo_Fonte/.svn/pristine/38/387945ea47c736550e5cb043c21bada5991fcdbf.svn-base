@@ -1,0 +1,30 @@
+package br.mil.mar.dabm.autenticador.domain.repository.usuario;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import br.mil.mar.dabm.autenticador.domain.entity.usuario.PerfilUsuarioAplicativo;
+
+/**
+ * 
+ * @author emanuelvictor
+ * @version 1.0
+ * @category Repository
+ */
+public interface IPerfilUsuarioAplicativoRepository extends JpaRepository<PerfilUsuarioAplicativo, Long>
+{
+	public Page<PerfilUsuarioAplicativo> findPerfilUsuarioAplicativosByUsuarioId( Long usuarioId, Pageable pageable );
+
+	/**
+	 * @param usuarioId
+	 * @param pageable
+	 * @return
+	 */
+//	@Query(value="SELECT new Usuario( usuario.id, null, usuario.nomeCompleto, usuario.login, null, usuario.email, null, null, null, null, null, null ) " +
+//			   "FROM Usuario usuario " +
+//			  "WHERE ( FILTER(usuario.nomeCompleto, :filter) = TRUE "
+//			  	 + "OR FILTER(usuario.login, :filter) = TRUE "
+//			  	 + "OR FILTER(usuario.email, :filter) = TRUE )")
+//	public Page<PerfilUsuarioAplicativo> listPerfilUsuarioAplicativoHistoricoByUsuarioId( Long usuarioId, PageRequest pageable );
+}

@@ -1,0 +1,12 @@
+<breadcrumb ng-repeat="crumb in breadcrumbs" ng-class="{ active: $last }">
+    <a ui-sref="{{ crumb.route }}" ng-if="!$last">{{ crumb.displayName }}&nbsp;</a>
+    <span ng-show="$last">{{ crumb.displayName }}</span>
+</breadcrumb>
+
+
+<!--<span class="md-breadcrumb-page ng-binding">
+    Dietas
+</span>
+<span ng-if="!$last" class="md-breadcrumb-page ng-scope">
+    <md-icon md-svg-icon="chevron_right" class="ng-isolate-scope md-default-theme" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fit="" preserveaspectratio="xMidYMid meet" viewbox="0 0 24 24" style="pointer-events: none; display: block;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></md-icon>
+</span>-->

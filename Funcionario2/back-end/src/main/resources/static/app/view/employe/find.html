@@ -1,0 +1,15 @@
+<md-content layout="column" layout-sm="column" layout-align="center center">
+  <md-list ng-init="init()">
+    <md-item style="cursor:pointer" >
+      <md-item-content ng-repeat="employee in employes">
+        <div class="md-tile-content" ng-click="edit(employee)">
+          <h3><small>Nome: </small>{{employee.name}}</h3>
+          <h4><small>Email: </small>{{employee.email}}</h4>
+          <p>
+            <small>Cargo: </small>{{employee.position.name}}
+          </p>
+        </div>
+      </md-item-content>
+    </md-item>
+  </md-list>
+</md-content>

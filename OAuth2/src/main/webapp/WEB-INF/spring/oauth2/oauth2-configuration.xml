@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+					  http://www.springframework.org/schema/security/oauth2
+					  http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+					  http://www.springframework.org/schema/security
+					  http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<oauth:authorization-server 
+		client-details-service-ref="serviceUser" 
+		token-services-ref="tokenServices">
+        <oauth:refresh-token/>
+        <oauth:password/>
+    </oauth:authorization-server>
+	
+	<oauth:resource-server id="resourceServerFilter" token-services-ref="tokenServices"/>
+	
+	<!-- Client Credentials Token Endpoint Filter - Ainda não sei pra que serve -->
+	<bean id="clientCredentialsTokenEndpointFilter"  
+	      class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">  
+	    <property name="authenticationManager" ref="clientAuthenticationManager"/>  
+	</bean> 
+	
+	
+	<!-- Ainda não sei pra que que serve -->
+	<bean id="clientAuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="typeName" value="Basic"/>
+    </bean>
+
+	<!-- Ainda não sei pra que que serve -->
+    <bean id="oauthAuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="test"/>
+    </bean>
+    
+    
+    <!-- Definição de acesso negado  -->
+    <bean id="oauthAccessDeniedHandler"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler"/>
+	
+	
+	<!-- Service que armazenará os tokens -->
+	<bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <property name="supportRefreshToken" value="true"/>
+        <property name="clientDetailsService" ref="serviceUser"/>
+        <property name="tokenStore" ref="tokenStore"/>
+    </bean>
+    
+    <!-- Referencia a guardar os tokens em memória - OS TOKENS SERÃO ARMAZENADOS NO BANCO E NÃO NA MEMÓRIA-->
+	<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore"/>
+	
+	<!-- Aponto para o Authentication Manager -->
+	<authentication-manager id="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">  
+	    <authentication-provider user-service-ref="serviceUser"/>
+	</authentication-manager>
+	
+	<!-- Definição do Entry point -->
+	<bean id="oauthRestEntryPoint" class="br.com.eits.oauth2.service.OAuthRestEntryPoint"/>
+	
+	<!-- post para fazer a requisição do token -->
+	<http pattern="/oauth/token" create-session="stateless"
+			authentication-manager-ref="clientAuthenticationManager"
+			xmlns="http://www.springframework.org/schema/security">
+		
+		<anonymous enabled="false"/>
+        <http-basic entry-point-ref="oauthRestEntryPoint" />
+        <access-denied-handler ref="oauthAccessDeniedHandler"/>
+	</http>
+	
+	
+	
+</beans>

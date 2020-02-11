@@ -1,0 +1,137 @@
+/**
+ * 
+ */
+package br.mil.mar.dabm.autenticador.domain.entity.aplicativo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.envers.Audited;
+
+import br.com.eits.common.domain.entity.AbstractEntity;
+
+/**
+ * @author emanuelvictor
+ *
+ */
+@Entity
+@Audited
+@DataTransferObject(javascript = "Permissao")
+@Table(uniqueConstraints = { 
+		@UniqueConstraint(columnNames = { "id", "identificador", "aplicativo_id", "permissao_superior_id" }) 
+}) // TODO testar no contexto transacional (Serviços)
+// Restrição de chave única entre o id do aplicativo, o id da permissão, o id da permissão superior e o identificador da permissão.
+// Dessa forma um aplicativo pode ter várias permissões com o mesmo nome porém com permissões superiores diferentes
+public class Permissao extends AbstractEntity
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3992546696846261194L;
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	@Column(length = 144, nullable = false)
+	private String identificador;
+	/**
+	 * 
+	 */
+	@ManyToOne(optional = true)
+	private Permissao permissaoSuperior;
+	/**
+	 * 
+	 */
+	@ManyToOne(optional = false)
+	private Aplicativo aplicativo;
+	/*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	public Permissao()
+	{
+		super();
+	}
+
+	/**
+	 * @param id
+	 */
+	public Permissao( Long id )
+	{
+		super( id );
+	}
+	
+	/**
+	 * @param id
+	 * @param identificador
+	 * @param permissaoSuperior
+	 * @param aplicativo
+	 */
+	public Permissao(Long id, String identificador, Permissao permissaoSuperior, Aplicativo aplicativo )
+	{
+		super(id);
+		this.identificador = identificador;
+		this.permissaoSuperior = permissaoSuperior;
+		this.aplicativo = aplicativo;
+	}
+	/*-------------------------------------------------------------------
+	 *						GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * @return the identificador
+	 */
+	public String getIdentificador()
+	{
+		return identificador;
+	}
+
+	/**
+	 * @param identificador the identificador to set
+	 */
+	public void setIdentificador( String identificador )
+	{
+		this.identificador = identificador;
+	}
+
+	/**
+	 * @return the permissaoSuperior
+	 */
+	public Permissao getPermissaoSuperior()
+	{
+		return permissaoSuperior;
+	}
+
+	/**
+	 * @param permissaoSuperior the permissaoSuperior to set
+	 */
+	public void setPermissaoSuperior( Permissao permissaoSuperior )
+	{
+		this.permissaoSuperior = permissaoSuperior;
+	}
+
+	/**
+	 * @return the aplicativo
+	 */
+	public Aplicativo getAplicativo()
+	{
+		return aplicativo;
+	}
+
+	/**
+	 * @param aplicativo the aplicativo to set
+	 */
+	public void setAplicativo( Aplicativo aplicativo )
+	{
+		this.aplicativo = aplicativo;
+	}
+
+}

@@ -1,0 +1,20 @@
+debug:
+server:
+  port: 7080 # TODO Lembrar de alterar contexto quando for implantar
+  contextPath: /Gym # TODO Lembrar de remover contexto quando for implantar
+spring:
+  oauth2:
+    sso:
+      home:
+        secure: false
+        path: /,/**/*.html
+    client:
+      accessTokenUri: http://localhost:8080/auth-engine/oauth/token # TODO Lembrar de alterar contexto quando for implantar
+      userAuthorizationUri: http://localhost:8080/auth-engine/oauth/authorize # TODO Lembrar de alterar contexto quando for implantar
+      clientId: sonc
+      clientSecret: 123456
+    resource:
+      userInfoUri: http://localhost:8080/auth-engine/api/user
+logging:
+  level:
+    org.springframework.security: DEBUG

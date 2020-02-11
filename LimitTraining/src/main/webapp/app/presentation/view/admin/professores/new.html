@@ -1,0 +1,101 @@
+<div style="
+    left: 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: #3f51b5;
+    height: 160px;">
+
+</div>
+
+<div class="menuBardemoBasicUsage" style="z-index: 1; overflow-y: auto;">
+	<div class="page-container">
+		<div class="page">
+			<form name="modelForm" ng-submit="insertHandler(modelForm)" novalidate>
+
+				<md-button class="md-fab"  aria-label="Eat cake"
+				           style="position: fixed; margin-left: 1000px; margin-top: 23px; background-color: rgb(255,82,82)">
+					<!--<md-icon md-svg-src="img/icons/cake.svg"></md-icon>-->
+				</md-button>
+
+				<div layout="row">
+					<div flex="30" layout-padding="">A foto do professor estará aqui</div>
+					<div flex="70" layout-padding="">
+						<md-input-container class="md-block" >
+							<label for="nomeCompleto">Nome do usuário</label>
+							<input type="text" ng-model="model.entity.nomeCompleto" md-maxlength="144" name="nomeCompleto"
+							       id="nomeCompleto">
+
+							<div ng-if="modelForm.nomeCompleto.$touched || isFormSubmit" ng-messages="modelForm.nomeCompleto.$error">
+								<div ng-message="required">Campo nome é obrigatório</div>
+							</div>
+						</md-input-container>
+
+					</div>
+				</div>
+				<div layout="column" layout-padding="">
+
+					<md-input-container>
+						<label for="cpf">CPF</label>
+						<input ng-model="model.entity.pessoa.cpf" id="cpf">
+					</md-input-container>
+
+					<div layout="row" layout-sm="column">
+						<label layout-margin>Data de nascimento</label>
+					</div>
+					<div layout="row" layout-sm="column">
+						<md-datepicker ng-model="model.entity.dataExpiracaoSenha" placeholder="Expiração de senha"></md-datepicker>
+					</div>
+				</div>
+
+
+			</form>
+
+
+			<!--<h4>Informações</h4>-->
+			<!--<md-divider></md-divider>-->
+			<div layout="column" layout-padding="">
+				<md-input-container>
+					<label for="email">Email</label>
+					<input ng-model="model.entity.email" type="email" name="email"
+					       md-maxlength="100" id="email"/>
+
+					<div ng-if="modelForm.email.$touched || isFormSubmit" ng-messages="modelForm.email.$error">
+						<div ng-message="email">E-mail inválido</div>
+					</div>
+				</md-input-container>
+				<md-input-container>
+					<label for="email">Senha</label>
+					<input ng-model="model.entity.email" type="email" name="email"
+					       md-maxlength="100" id="email">
+
+					<div ng-if="modelForm.email.$touched || isFormSubmit" ng-messages="modelForm.email.$error">
+						<div ng-message="email">E-mail inválido</div>
+					</div>
+				</md-input-container>
+				<md-input-container>
+					<label for="email">Fissionteramenta</label>
+					<input ng-model="model.entity.email" type="email" name="email"
+					       md-maxlength="100" id="email">
+
+					<div ng-if="modelForm.email.$touched || isFormSubmit" ng-messages="modelForm.email.$error">
+						<div ng-message="email">E-mail inválido</div>
+					</div>
+				</md-input-container>
+				<md-input-container>
+					<label for="email">Ativo</label>
+					<input ng-model="model.entity.email" type="email" name="email"
+					       md-maxlength="100" id="email">
+
+					<div ng-if="modelForm.email.$touched || isFormSubmit" ng-messages="modelForm.email.$error">
+						<div ng-message="email">E-mail inválido</div>
+					</div>
+				</md-input-container>
+			</div>
+
+
+			<h4>Alunos</h4>
+			<md-divider style="    margin-left: -24px; margin-right: -24px;"></md-divider>
+		</div>
+	</div>
+</div>

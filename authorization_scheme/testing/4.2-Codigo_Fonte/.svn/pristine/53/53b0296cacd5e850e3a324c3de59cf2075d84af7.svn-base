@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<md-dialog md-theme="default" aria-label="Perfil de acesso" style="width: 700px">
+
+    <md-dialog-content>
+
+        <!--<md-chips ng-model="ctrl.roFruitNames" readonly="ctrl.readonly">-->
+            <!--<md-chip-template>-->
+                <!--<strong></strong>-->
+                <!--<em>(fruit)</em>-->
+            <!--</md-chip-template>-->
+        <!--</md-chips>-->
+        <md-divider></md-divider>
+        <!--<ul ng-repeat="(key, value) in players">-->
+            <!--Group name: {{ key }}-->
+            <!--<li ng-repeat="player in value">-->
+                <!--player: {{ player.name }}-->
+            <!--</li>-->
+        <!--</ul>-->
+        <div ng-repeat="(setKey, set) in perfisAcesso | groupBy:'aplicativo'">
+            {{setKey}}
+            <div ng-repeat="item in set">
+                &nbsp&nbsp&nbsp{{item.nome}}
+            </div>
+        </div>
+        <!--<div ng-repeat="(setKey, set) in items | groupBy:'foo.fooId'">-->
+            <!--{{setKey}}-->
+
+            <!--<div ng-repeat="item in set">-->
+                <!--&nbsp&nbsp&nbsp{{item.colorId}}-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<ul ng-repeat="perfilAcesso in perfisAcesso track by $id(perfilAcesso.aplicativo)">-->
+
+
+            <!--<li >-->
+                <!--{{perfilAcesso.nome}}-->
+            <!--</li>-->
+        <!--</ul>-->
+        <md-content style="max-height: 300px;">
+            <md-list>
+                <!--<md-list-item style="padding: 10px;" class="md-3-line" >-->
+                    <!--<li ng-repeat="player in value">-->
+                        <!--player: {{ player.name }}-->
+                    <!--</li>-->
+                    <!--<img ng-src="{{todos[0].face}}?25" class="md-avatar" style="margin-top: 6px;"-->
+                         <!--alt="{{todos[0].who}}"/>-->
+
+                    <!--<div class="md-list-item-text" flex="10">-->
+                        <!--<span>Aplicativo 1</span>-->
+                    <!--</div>-->
+
+                    <!--<div class="md-list-item-text" flex="10">-->
+                        <!--<span style="color: #00b0ff ">-->
+                            <!--{{ aplicativo.ativo ? 'ativo' : 'inativo' }}-->
+                        <!--</span>-->
+                    <!--</div>-->
+                    <!--<div style="margin: -9px; margin-top: -14px;" layout-align="end top">-->
+                        <!--<md-select placeholder="Administrador, Atendente" ng-model="someVal">-->
+                            <!--<md-checkbox ng-model="isChecked" aria-label="Finished?">-->
+                                <!--Finished ?-->
+                            <!--</md-checkbox>-->
+                            <!--<md-checkbox md-no-ink ng-model="hasInk" aria-label="No Ink Effects">-->
+                                <!--No Ink Effects-->
+                            <!--</md-checkbox>-->
+                            <!--<md-checkbox ng-disabled="true" ng-model="isDisabled" aria-label="Disabled">-->
+                                <!--Disabled-->
+                            <!--</md-checkbox>-->
+                        <!--</md-select>-->
+                    <!--</div>-->
+                <!--</md-list-item>-->
+            </md-list>
+
+            <md-divider></md-divider>
+        </md-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="answer('not useful')">
+                Sair
+            </md-button>
+        </div>
+    </md-dialog-content>
+
+</md-dialog>

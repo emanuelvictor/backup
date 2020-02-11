@@ -1,0 +1,37 @@
+<form ng-submit="save()">
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nome</label>
+      <input type="text" ng-model="editFuncionario.nome" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" ng-click="selectCargo();" layout-align="center center">
+    <md-input-container style="cursor:pointer">
+      <label>Cargo</label>
+      <input type="text" ng-model="editFuncionario.cargo.nome" style="cursor:pointer" required readonly>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Email</label>
+      <input type="email" ng-model="editFuncionario.email" required>
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <md-input-container>
+      <label>Nova senha</label>
+      <input type="password" ng-model="editFuncionario.password">
+    </md-input-container>
+  </section>
+  <section layout="row" layout-sm="column" layout-align="center center">
+    <div class="md-actions" layout="row">
+     <span flex></span>  
+      <md-button type="button" ng-click="delete(editFuncionario)">
+        Excluir
+      </md-button>
+      <md-button type="submit" class="md-primary">
+       Atualizar
+      </md-button>
+    </div>
+  </section>
+</form>  

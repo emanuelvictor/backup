@@ -1,0 +1,172 @@
+body{min-width: 1000px; font-size: 13px;}
+body div.light-blue{background-color: #00b0ff; height: 250px; width: 100%; display: block}
+.color-bg {
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+.color-bg-blue {
+    background-color: rgb(2,119,189);
+    height: 180px;
+    -o-transition: height 0.8s ease 0.1s;
+    -moz-transition: height 0.8s ease 0.1s;
+    -webkit-transition: height 0.8s ease 0.1s;
+    transition: height 0.8s ease 0.1s;
+}
+.color-bg-grey {
+    background: #ececec;
+    height: 100%;
+}
+div#main md-content.content{background-color: inherit; padding-top: 26px}
+div#main md-content.content button.md-fab.md-button{/* position: relative; *//* top: 82px */}
+div#main md-content.md-default-theme .list{padding-top: 0px; top:26px}
+
+ul{list-style: none}
+/* PAPER-SHEET */
+form > div.eits-paper-sheet-item, form > div.eits-paper-sheet-item:hover{padding: 30px; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); background-color: #fff}
+eits-paper-sheet div.eits-paper-sheet-item:first-child .paper-sheet-closed{padding: 30px}
+eits-paper-sheet div.eits-paper-sheet-item:first-child:hover{background-color: none}
+eits-paper-sheet div.eits-paper-sheet-item:hover{/* background-color: #efefef; */ /* cursor: pointer; */ /* box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); */}
+eits-paper-sheet div.eits-paper-sheet-item.clicked, .eits-paper-sheet-item.clicked:hover{box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); background-color: #fff}
+eits-paper-sheet div.paper-sheet-closed h4{padding: 0 30px}
+eits-paper-sheet div.eits-paper-sheet-item.clicked .paper-sheet-closed h4{margin: 0;font-size: 20px; line-height: 60px}
+eits-paper-sheet div.paper-sheet-opened{padding: 30px}
+eits-paper-sheet div.eits-paper-sheet-item.clicked div.paper-sheet-opened{display: block}
+eits-paper-sheet div.eits-paper-sheet-item{padding: 0}
+
+eits-paper-sheet div.eits-paper-sheet-item.clicked:hover{cursor: default}
+
+ul.details{  padding:0; list-style: none; float: left; width: 100%; display: block}
+ul.details li{float: left; color: #333; display: block; width: 100%}
+ul.details li p{ float: left;color: #333}
+ul.details li p:first-child{color: #999; min-width: 150px}
+
+/* APLICATIVOS */
+.icon{display:block;width:120px;height:120px;border-radius:60px;font-size:20px;line-height: 15px; color:#fff;text-align:center;background:#0c7cc0;}
+.icon span{padding-top: 47px; display: block}
+
+
+/* DROP DOWN */
+/*.dd{height: inherit}
+div.dd-menu.left-top.active{left:-140px}*/
+
+.drop {
+    float:left;
+    position: relative;
+}
+
+.dd {
+    position:relative;
+    padding:20px;
+    height:20px;
+}
+
+.dd-menu {
+    min-width: 200px;
+    padding: 6px 0px;
+    position: absolute;
+    z-index: 1000;
+    font-size: 14px;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
+    background-clip: padding-box;
+    display: none;
+    -webkit-transform: scale(1);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dd-menu md-divider{padding: 6px 0}
+
+.dd-menu.right-top.active {
+    -webkit-transform-origin: right top 0px;
+    -webkit-transform: scale(1);
+    left: -140px;
+}
+
+.dd-menu.right-bottom.active {
+    -webkit-transform-origin: right bottom 0px;
+    -webkit-transform: scale(1);
+    opacity:1;
+    top: -225px;
+    left: -145px;
+}
+
+.dd-menu.left-bottom.active {
+    -webkit-transform-origin: left bottom 0px;
+    top: -300px;
+}
+
+.dd-menu ul {
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 0px;
+    list-style: none;
+    position:relative;
+}
+
+.dd-menu.active {
+    display: block;
+    -webkit-transform-origin: left top 0px;
+    -webkit-transform: scale(1);
+    top: 25px;
+    left: 0px;
+}
+
+.dd-menu li {
+    color:#666;
+    margin: 0;
+    padding: 0px 15px;
+    height: 32px;
+    list-style: none;
+    opacity: 0;
+    cursor:pointer;
+    transform: translateY(0px);
+    line-height: 32px
+}
+.dd-menu li:hover{
+    background:#eee;;
+}
+.dd-menu li {
+    transform: translateY(-30%);
+}
+.dd-menu.active li {
+    opacity: 1;
+    transform: translateY(0px);
+}
+
+/* UI-TREE */
+li div.angular-ui-tree-handle{font-weight: inherit}
+li div.angular-ui-tree-handle .selected{font-weight: 900}
+li.angular-ui-tree-node .children {margin-left: 27px}
+
+/* EITS-TABLE*/
+.eits-table{background-color: #fff}
+.eits-table-header, .eits-table-content{font-size: inherit}
+
+/* Prove ao menu de opções do autocomplete sumir */
+.menu-chips {
+    visibility: hidden;
+    display: none;
+}
+
+/*ITEM HOME*/
+.box-list-home {
+    float: left;
+    height: 250px;
+    width: 230px;
+    margin-right: 30px;
+    background-color : white;
+
+}
+.box-list-home  p{
+    margin-top: 20px;
+    text-align: center;
+    padding-left: 25px;
+    padding-right: 25px;
+}

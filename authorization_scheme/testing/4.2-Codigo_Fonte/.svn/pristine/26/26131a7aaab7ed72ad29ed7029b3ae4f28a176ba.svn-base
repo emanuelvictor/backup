@@ -1,0 +1,115 @@
+/**
+ * 
+ */
+package br.mil.mar.commons.dabm.test.domain.entity.aplicativo;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import br.mil.mar.dabm.autenticador.domain.entity.aplicativo.PerfilAcesso;
+
+/**
+ * @author emanuelvictor
+ *
+ */
+public class PerfilAcessoTests
+{
+	/*-------------------------------------------------------------------
+	 *				 		     UNIT TESTS
+	 *-------------------------------------------------------------------*/
+	@Test
+	public void instanceOfPerfilAcesso()
+	{
+		
+		PerfilAcesso perfilAcesso = new PerfilAcesso();
+		
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertNull( perfilAcesso.getId() );
+		Assert.assertNull( perfilAcesso.getNome() );
+		Assert.assertNull( perfilAcesso.getDescricao() );
+		Assert.assertNull( perfilAcesso.getEditavel() );
+		Assert.assertNull( perfilAcesso.getRemovivel() );
+		Assert.assertNull( perfilAcesso.getDiasExpiracaoSenha() );
+		
+	}
+
+	@Test
+	public void instanceOfPerfilAcessoAndGetters()
+	{
+		PerfilAcesso perfilAcesso = new PerfilAcesso(1L, true, true, "Gerente", "Tem perfís de acesso de gerência, logo abaixo de administrador", null, null , 90);
+
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertNotNull( perfilAcesso.getId() );
+		Assert.assertNotNull( perfilAcesso.getNome() );
+		Assert.assertNotNull( perfilAcesso.getDescricao() );
+		Assert.assertNotNull( perfilAcesso.getEditavel() );
+		Assert.assertNotNull( perfilAcesso.getRemovivel() );
+		Assert.assertNotNull( perfilAcesso.getDiasExpiracaoSenha() );
+	}
+	
+	@Test
+	public void instanceOfPerfilAcessoAndGettersAndValidateDiasExpiracaoSenhaBehavior()
+	{
+		//Testando comportamento para setar dias de expiração de senhas como nulo ou somente positivo
+		Integer diasExpiracaoSenha = 90;
+		PerfilAcesso perfilAcesso = new PerfilAcesso(1L, true, true, "Gerente", "Tem perfís de acesso de gerência, logo abaixo de administrador", null, null , diasExpiracaoSenha);
+
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertNotNull( perfilAcesso.getId() );
+		Assert.assertNotNull( perfilAcesso.getNome() );
+		Assert.assertNotNull( perfilAcesso.getDescricao() );
+		Assert.assertNotNull( perfilAcesso.getEditavel() );
+		Assert.assertNotNull( perfilAcesso.getRemovivel() );
+		Assert.assertNotNull( perfilAcesso.getDiasExpiracaoSenha() );
+		Assert.assertEquals( perfilAcesso.getDiasExpiracaoSenha() , diasExpiracaoSenha);
+		
+		diasExpiracaoSenha = -90;
+		perfilAcesso.setDiasExpiracaoSenha( diasExpiracaoSenha );
+		
+		Assert.assertNotNull( perfilAcesso.getDiasExpiracaoSenha() );
+		Assert.assertNotEquals( perfilAcesso.getDiasExpiracaoSenha() , diasExpiracaoSenha);
+		
+		diasExpiracaoSenha = null;
+		perfilAcesso.setDiasExpiracaoSenha( diasExpiracaoSenha );
+		
+		Assert.assertNull( perfilAcesso.getDiasExpiracaoSenha() );
+	}
+	
+	@Test
+	public void instanceOfPerfilAcessoAndGettersAndEditavelBehavior()
+	{
+		//Testando comportamento para setar dias de expiração de senhas como nulo ou somente positivo
+		Integer diasExpiracaoSenha = 90;
+		PerfilAcesso perfilAcesso = new PerfilAcesso(1L, true, true, "Gerente", "Tem perfís de acesso de gerência, logo abaixo de administrador", null, null , diasExpiracaoSenha);
+
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertNotNull( perfilAcesso.getId() );
+		Assert.assertNotNull( perfilAcesso.getNome() );
+		Assert.assertNotNull( perfilAcesso.getDescricao() );
+		Assert.assertNotNull( perfilAcesso.getEditavel() );
+		Assert.assertNotNull( perfilAcesso.getRemovivel() );
+		Assert.assertNotNull( perfilAcesso.getDiasExpiracaoSenha() );
+		Assert.assertEquals( perfilAcesso.getDiasExpiracaoSenha() , diasExpiracaoSenha);
+		
+		Integer diasExpiracaoSenhaAux = diasExpiracaoSenha;
+		diasExpiracaoSenha = 95;
+		perfilAcesso.setEditavel( false );
+		perfilAcesso.setDiasExpiracaoSenha( diasExpiracaoSenha );
+		
+		Assert.assertEquals( perfilAcesso.getDiasExpiracaoSenha() , diasExpiracaoSenhaAux);
+		
+		
+		perfilAcesso.setEditavel( true );
+		perfilAcesso.setDiasExpiracaoSenha( diasExpiracaoSenha );
+		
+		Assert.assertEquals( perfilAcesso.getDiasExpiracaoSenha() , diasExpiracaoSenha);
+		
+	}
+
+	/*-------------------------------------------------------------------
+	 *				 		     INTEGRATION TESTS
+	 *-------------------------------------------------------------------*/
+
+	
+
+}

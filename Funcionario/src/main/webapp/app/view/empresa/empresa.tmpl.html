@@ -1,0 +1,13 @@
+<md-dialog aria-label="Empresas" ng-init="init()">
+  <md-content>
+    <md-list>
+	    <md-item style="cursor:pointer">
+	      <md-item-content ng-repeat="empresa in empresas">
+	        <div class="md-tile-content" ng-click="select(empresa)">
+	          <h3>{{empresa.cnpj}}</h3>
+	        </div>
+	      </md-item-content>
+	    </md-item>
+	  </md-list>
+	</md-content>
+</md-dialog>

@@ -1,0 +1,394 @@
+CREATE SCHEMA IF NOT EXISTS "public";
+CREATE SCHEMA IF NOT EXISTS "auditoria";
+CREATE EXTENSION IF NOT EXISTS UNACCENT SCHEMA PG_CATALOG;
+
+
+CREATE TABLE usuario
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  data_expiracao_senha timestamp without time zone NOT NULL,
+  email character varying(100),
+  login character varying(50) NOT NULL,
+  nome_completo character varying(50) NOT NULL,
+  senha character varying(100) NOT NULL,
+  pessoa bytea,
+  CONSTRAINT usuario_pkey PRIMARY KEY (id),
+  CONSTRAINT uk_usuario_email UNIQUE (email),
+  CONSTRAINT uk_usuario_login UNIQUE (login)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE aplicativo
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  ativo boolean NOT NULL,
+  codigo character varying(255),
+  descricao character varying(144),
+  endereco character varying(255),
+  nome character varying(144) NOT NULL,
+  refresh_token  character varying(144),
+  perfis_dinamicos boolean NOT NULL,
+  versao character varying(144),
+  versao_estavel_id bigint,
+  mensagem_desativacao text,
+  CONSTRAINT aplicativo_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_aplicativo_versao_estavel_id FOREIGN KEY (versao_estavel_id)
+      REFERENCES aplicativo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_aplicativo_codigo UNIQUE (codigo)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE perfil_acesso
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  descricao character varying(144),
+  dias_expiracao_senha integer,
+  editavel boolean NOT NULL,
+  nome character varying(144) NOT NULL,
+  removivel boolean NOT NULL,
+  aplicativo_id bigint NOT NULL,
+  perfil_acesso_superior_id bigint,
+  CONSTRAINT perfil_acesso_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_perfil_acesso_aplicativo_id FOREIGN KEY (aplicativo_id)
+      REFERENCES aplicativo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_perfil_acesso_perfil_acesso_superior_id FOREIGN KEY (perfil_acesso_superior_id)
+      REFERENCES perfil_acesso (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_perfil_acesso_aplicativo_id_id_nome UNIQUE (id, nome, aplicativo_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE perfil_usuario_aplicativo
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  perfil_acesso_id bigint NOT NULL,
+  usuario_id bigint NOT NULL,
+  CONSTRAINT perfil_usuario_aplicativo_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_perfil_usuario_aplicativo_perfil_acesso_id FOREIGN KEY (perfil_acesso_id)
+      REFERENCES perfil_acesso (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_perfil_usuario_aplicativo_usuario_id FOREIGN KEY (usuario_id)
+      REFERENCES usuario (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_perfil_usuario_aplicativo_perfil_acesso_id_usuario_id UNIQUE (perfil_acesso_id, usuario_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tipo_acesso_aplicativo
+(
+  aplicativo_id bigint NOT NULL,
+  tipos_acesso_aplicativo integer NOT NULL,
+  CONSTRAINT tipo_acesso_aplicativo_pkey PRIMARY KEY (aplicativo_id, tipos_acesso_aplicativo),
+  CONSTRAINT fk_tipo_acesso_aplicativo_aplicativo_id FOREIGN KEY (aplicativo_id)
+      REFERENCES aplicativo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE configuracao
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  dias_expiracao_senha integer NOT NULL,
+  CONSTRAINT configuracao_pkey PRIMARY KEY (id),
+  CONSTRAINT configuracao_dias_expiracao_senha_check CHECK (dias_expiracao_senha >= 0)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE permissao
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  identificador character varying(144) NOT NULL,
+  aplicativo_id bigint NOT NULL,
+  permissao_superior_id bigint,
+  CONSTRAINT permissao_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_permissao_aplicativo_id FOREIGN KEY (aplicativo_id)
+      REFERENCES aplicativo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_permissao_permissao_superior_id FOREIGN KEY (permissao_superior_id)
+      REFERENCES permissao (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_permissao_aplicativo_id_id_identificador_permissao_superior UNIQUE (id, identificador, aplicativo_id, permissao_superior_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE perfil_acesso_permissao
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  perfil_acesso_id bigint NOT NULL,
+  permissao_id bigint NOT NULL,
+  CONSTRAINT perfil_acesso_permissao_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_perfil_acesso_permissao_perfil_acesso_id FOREIGN KEY (perfil_acesso_id)
+      REFERENCES perfil_acesso (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_perfil_acesso_permissao_permissao_id FOREIGN KEY (permissao_id)
+      REFERENCES permissao (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_perfil_acesso_permissao_id_perfil_acesso_id_permissao_id UNIQUE (id, perfil_acesso_id, permissao_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE dependencia_perfil_acesso
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  perfil_acesso_id bigint NOT NULL,
+  perfil_acesso_subordinado_id bigint NOT NULL,
+  CONSTRAINT dependencia_perfil_acesso_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_dependencia_perfil_acesso_perfil_acesso_id FOREIGN KEY (perfil_acesso_id)
+      REFERENCES perfil_acesso (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_dependencia_perfil_acesso_perfil_acesso_subordinado_id FOREIGN KEY (perfil_acesso_subordinado_id)
+      REFERENCES perfil_acesso (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_dependencia_perfil_acesso_perfil_acesso_id_perfil_acesso_su UNIQUE (perfil_acesso_id, perfil_acesso_subordinado_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE dependencia_permissao
+(
+  id bigserial NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated timestamp without time zone,
+  permissao_id bigint NOT NULL,
+  permissao_subordinada_id bigint NOT NULL,
+  CONSTRAINT dependencia_permissao_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_dependencia_permissao_permissao_id FOREIGN KEY (permissao_id)
+      REFERENCES permissao (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_dependencia_permissao_permissao_subordinada_id FOREIGN KEY (permissao_subordinada_id)
+      REFERENCES permissao (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_dependencia_permissao_permissao_id_permissao_subordinada_id UNIQUE (permissao_id, permissao_subordinada_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+--usuário login dabm
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (100, NOW(),NOW(), 'superusuario@dabm.mar.mil.br', 'administrador', 'Usuário administrador', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');
+
+	 
+--usuário login dabm
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (101, NOW(), NOW(), 'usuario@dabm.mar.mil.br', 'usuario', 'Usuário usuário ', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');	 
+	 
+--usuário gos	 
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (102, NOW(), NOW(), 'superASDAusASDAuario@dabm.mar.mil.br', 'superusuariogos', 'Super usuário', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');
+
+	 
+--usuário gos	 
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (103, NOW(), NOW(), 'teASASDFADFAst@dabm.mar.mil.br', 'usuariogos', 'Usuario test', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');
+	 
+	 
+--usuário pdti
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (104, NOW(), NOW(), 'ASASDFADA@dabm.mar.mil.br', 'superusuariopdti', 'Super usuário', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');
+
+	 
+--usuário pdti
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (105, NOW(), NOW(),'teASDFAASDFAst@dabm.mar.mil.br', 'usuariopdti', 'Usuario test', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');	 
+
+	 
+--usuário TESTE login dabm
+INSERT INTO usuario(id, created, data_expiracao_senha, email, login, nome_completo, senha)
+	 VALUES (106, NOW(), '2016-06-12 00:41:06.389338', 'test@dabm.mar.mil.br', 'test', 'Usuario test', 'a31a310a741322d0a88aa40c13dfe4a83ed58024');
+	 
+	 
+	 
+	 
+--Inserindo login dabm	 
+INSERT INTO aplicativo(id, created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (200, NOW(), TRUE, 'b77c1257-6549-43dc-9123-a9018c92a227', 'b77c1321-6549-43dc-9697-a9018c65a227', 'http://localhost:8080/', 'Autenticador DAbM', FALSE, '1.0.0-SNAPSHOT');
+
+     
+     
+--Inserindo gos
+INSERT INTO aplicativo(id, created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (201, NOW(), TRUE, 'b77c1257-6549-43dc-9696-a9018c92a227', 'b77c1257-6549-43dc-9696-a9018c92a227', 'http://172.27.45.54:8081/client', 'GOS', FALSE, '1.0.0-SNAPSHOT');     
+
+     
+--Inserindo pdti
+INSERT INTO aplicativo(id, created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (202, NOW(), TRUE, 'b77c1257-6549-43dc-9696-a9018c92a277', 'a77c1257-6549-43dc-9676-a9018c92a227', 'http://172.27.45.10:8081/client1', 'PDTI', FALSE, '1.0.0-SNAPSHOT');     
+ 
+     
+--perfis do login dabm                
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (400, NOW(),  true, true, 200, 'ADMINISTRADOR');
+     
+                    
+--perfis do login dabm
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (401, NOW(),  false, false, 200, 'USUARIO');
+                    
+                    --perfis do login dabm
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (407, NOW(),  false, false, 200, 'PUBLICO');
+                    
+                    
+   -- perfis do gos
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (402, NOW(),  false, false, 201, 'ADMINISTRADOR');                
+                    
+                    
+--perfis do gos
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (403, NOW(),  false, false, 201, 'ATENDENTE');   
+                    
+                    
+--    perfis do PDTI
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (404, NOW(),  false, false, 202, 'ADMINISTRADOR');
+                    
+                    
+--    perfis do PDTI
+INSERT INTO perfil_acesso(id, created,  editavel, removivel, aplicativo_id, nome)
+                    VALUES (405, NOW(),  false, false, 202, 'FISCAL');       
+
+                                          
+--    permissão                  
+INSERT INTO permissao(id, created, updated, identificador, aplicativo_id, permissao_superior_id)
+                    VALUES (1, NOW(),  NOW(), 'servicoUm', 200, NULL);  
+                    
+--    permissão                  
+INSERT INTO permissao(id, created, updated, identificador, aplicativo_id, permissao_superior_id)
+                    VALUES (2, NOW(),  NOW(), 'listar', 200, 1);   
+                    
+--    perfil acesso permissão                  
+INSERT INTO perfil_acesso_permissao(id, created, updated, perfil_acesso_id, permissao_id)
+                    VALUES (1, NOW(),  NOW(), 400, 1);      
+
+--    perfil acesso permissão
+INSERT INTO perfil_acesso_permissao(id, created, updated, perfil_acesso_id, permissao_id)
+                    VALUES (2, NOW(),  NOW(), 400, 2);  
+                    
+  --    dependencias perfil acesso Login DAbM
+INSERT INTO dependencia_perfil_acesso(id, created, perfil_acesso_id, perfil_acesso_subordinado_id)
+                    VALUES (600, NOW(), 400, 401);                    
+                    
+  --    dependencias perfil acesso GOS
+INSERT INTO dependencia_perfil_acesso(id, created, perfil_acesso_id, perfil_acesso_subordinado_id)
+                    VALUES (601, NOW(), 402, 403);
+
+  --    dependencias perfil acesso PDTI
+INSERT INTO dependencia_perfil_acesso(id, created, perfil_acesso_id, perfil_acesso_subordinado_id)
+                    VALUES (602, NOW(), 404, 405);       
+
+                    
+--       usuários com perfis do login dabm
+       
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (500, NOW(), 400, 100);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (502, NOW(), 401, 101);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (511, NOW(), 401, 106);
+                    
+--       perfis do gos
+       
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (503, NOW(), 400, 102);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (504, NOW(), 401, 103);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (505, NOW(), 403, 102);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (506, NOW(), 402, 103);
+                    
+--       perfis do pdti
+
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (507, NOW(), 400, 104);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (508, NOW(), 401, 105);                    
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (509, NOW(), 405, 104);
+                    
+INSERT INTO perfil_usuario_aplicativo(id, created, perfil_acesso_id, usuario_id)
+                    VALUES (510, NOW(), 404, 105);
+     
+
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '222', '2222', 'http://localhost:8081/client2', 'App Test2', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '333', '3333', 'http://localhost:8081/client3', 'App Test3', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '444', '4444', 'http://localhost:8081/client4', 'App Test4', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '555', '5555', 'http://localhost:8081/client5', 'App Test5', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '666', '6666', 'http://localhost:8081/client6', 'App Test6', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '777', '7777', 'http://localhost:8081/client7', 'App Test7', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '888', '8888', 'http://localhost:8081/client8', 'App Test8', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '999', '9999', 'http://localhost:8081/client9', 'App Test9', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '101010', '10101010', 'http://localhost:8081/client10', 'App Test10', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '11111111', '1111111111', 'http://localhost:8081/client11', 'App Test11', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '121212', '12121212', 'http://localhost:8081/client12', 'App Test12', FALSE, '1.0.0-SNAPSHOT');
+INSERT INTO aplicativo(created, ativo, codigo, refresh_token, endereco, nome, perfis_dinamicos, versao)
+     VALUES (NOW(), TRUE, '13131313', '1313131313', 'http://localhost:8081/client13', 'App Test13', FALSE, '1.0.0-SNAPSHOT');
+
+
+     
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 0);
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 1);
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 2);
+INSERT INTO tipo_acesso_aplicativo(aplicativo_id, tipos_acesso_aplicativo)
+     VALUES (1, 3);
+     
+INSERT INTO configuracao(id , created , dias_expiracao_senha)
+	VALUES(1 , NOW() , 90);
