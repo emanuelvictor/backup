@@ -1,0 +1,393 @@
+package br.mil.mar.autenticador.dabm.test.domain.service;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import org.directwebremoting.io.FileTransfer;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+
+import br.mil.mar.autenticador.dabm.test.domain.AbstractIntegrationTests;
+import br.mil.mar.dabm.autenticador.domain.service.AplicativoService;
+import br.mil.mar.dabm.common.domain.entity.aplicativo.Aplicativo;
+import br.mil.mar.dabm.common.domain.entity.aplicativo.PerfilAcesso;
+import br.mil.mar.dabm.common.domain.entity.aplicativo.PerfilAcessoPermissao;
+import br.mil.mar.dabm.common.domain.entity.aplicativo.Permissao;
+
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+
+/**
+ * 
+ * @author rodrigo@eits.com.br
+ */
+public class AplicativoServiceTests extends AbstractIntegrationTests
+{
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+
+	/**
+	 * 
+	 */
+	@Autowired
+	private AplicativoService aplicativoService;
+
+	/*-------------------------------------------------------------------
+	 *				 		      TESTS
+	 *-------------------------------------------------------------------*/
+
+	@Before
+	public void autenticate()
+	{
+		this.authenticate();
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void insertPerfilAcessoMustPass()
+	{		
+		PerfilAcesso perfilAcesso = new PerfilAcesso( null, true, true, "Nome", "Descrição", new Aplicativo( 1L ), 90 );
+		perfilAcesso = this.aplicativoService.insertPerfilAcesso( perfilAcesso );
+		Assert.assertNotNull( perfilAcesso );
+	}
+
+	/**
+	 * @throws MalformedURLException
+	 * 
+	 */
+	@Test
+	public void insertAplicativoMustPass() throws MalformedURLException
+	{
+		Aplicativo aplicativo = new Aplicativo();
+		aplicativo.setAtivo( true );
+		aplicativo.setVersao( "1.0.0" );
+		aplicativo.setPerfisDinamicos( true );
+		aplicativo.setEndereco( "http://localhost:8081/client" );
+		aplicativo.setIdentificador( UUID.randomUUID().toString() );
+		aplicativo.setNome( "App Test" );	
+		aplicativo = this.aplicativoService.insertAplicativo( aplicativo );
+		this.aplicativoService.findAplicativoById( aplicativo.getId() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", 
+	  "/dataset/aplicativo/PerfilAcessoDataSet.xml" })
+	public void removePerfilAcesso()
+	{		
+		this.aplicativoService.removePerfilAcesso( 2L );
+		this.aplicativoService.findPerfilAcessoById( 2L );	
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/usuario/UsuarioDataSet.xml",
+	  "/dataset/aplicativo/AplicativoDataSet.xml", 
+	  "/dataset/aplicativo/PerfilAcessoDataSet.xml",
+	  "/dataset/usuario/PerfilUsuarioAplicativoDataSet.xml"})
+	public void removePerfilAcessoMustFail()
+	{
+		this.aplicativoService.removePerfilAcesso( 1L );
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/usuario/UsuarioDataSet.xml",
+	  "/dataset/aplicativo/AplicativoDataSet.xml", 
+	  "/dataset/aplicativo/PerfilAcessoDataSet.xml",
+	  "/dataset/usuario/PerfilUsuarioAplicativoDataSet.xml",
+	  "/dataset/aplicativo/PermissaoDataSet.xml",
+	  "/dataset/aplicativo/PerfilAcessoPermissaoDataSet.xml" })
+	public void removePerfilAcessoPermissao()
+	{
+		this.aplicativoService.removePerfilAcessoPermissoes(  Arrays.asList( 1L ) );
+		this.aplicativoService.findPerfilAcessoPermissaoById( 1L );
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", "/dataset/aplicativo/PerfilAcessoDataSet.xml", "/dataset/aplicativo/PermissaoDataSet.xml" })
+	public void insertPerfilAcessoPermissaoMustPass()
+	{
+		PerfilAcessoPermissao perfilAcessoPermissao = new PerfilAcessoPermissao();
+		perfilAcessoPermissao.setPerfilAcesso( new PerfilAcesso( 1L ) );
+		perfilAcessoPermissao.setPermissao( new Permissao( 1L ) );
+		perfilAcessoPermissao = this.aplicativoService.insertPerfilAcessoPermissao( 1L , 1L );
+		Assert.assertNotNull( perfilAcessoPermissao );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void insertPermissaoMustPass()
+	{
+		Permissao permissao = new Permissao();
+		permissao.setIdentificador( "Indentificador" );
+		permissao.setAplicativo( new Aplicativo( 1L ) );
+		permissao = this.aplicativoService.insertPermissao( permissao );
+		Assert.assertNotNull( permissao );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void findAplicativoByIdMustPass()
+	{
+		final Aplicativo aplicativo = this.aplicativoService.findAplicativoById( 1L );
+		Assert.assertNotNull( aplicativo );
+		Assert.assertNotNull( aplicativo.getId() );
+		Assert.assertNotNull( aplicativo.getCreated() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void updateVersaoEstavelToNullMustPass()
+	{
+		Aplicativo aplicativo = this.aplicativoService.findAplicativoById( 2L );
+		aplicativo.setVersaoEstavel( null );
+		aplicativo = aplicativoService.updateAplicativo( aplicativo );
+		Assert.assertNull( aplicativo.getVersaoEstavel() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = AssertionError.class)
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void updateVersaoEstavelToSelfMustFail()
+	{
+		Aplicativo aplicativo = this.aplicativoService.findAplicativoById( 2L );
+		aplicativo.setVersaoEstavel( aplicativo );
+		aplicativo = aplicativoService.updateAplicativo( aplicativo );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void updateVersaoEstavelMustPass()
+	{
+		Aplicativo aplicativo = this.aplicativoService.findAplicativoById( 2L );
+		Aplicativo aplicativo2 = this.aplicativoService.findAplicativoById( 1L );
+		aplicativo.setVersaoEstavel( aplicativo2 );
+		aplicativo = aplicativoService.updateAplicativo( aplicativo );
+		Assert.assertNotNull( aplicativo );
+		Assert.assertNotNull( aplicativo.getVersaoEstavel() );
+		Assert.assertNotNull( aplicativo.getVersaoEstavel().getId() );
+
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void listAplicativosByFiltersMustReturnAllAtivos()
+	{
+		final Page<Aplicativo> aplicativos = this.aplicativoService.listAplicativosByFilters( null, true, null );
+		Assert.assertNotNull( aplicativos );
+		Assert.assertEquals( 2, aplicativos.getSize() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void listAplicativosByFiltersMustReturnAllInativos()
+	{
+		final Page<Aplicativo> aplicativos = this.aplicativoService.listAplicativosByFilters( null, false, null );
+		Assert.assertNotNull( aplicativos );
+		Assert.assertEquals( 1, aplicativos.getSize() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void listAplicativosByFiltersMustReturnOneAtivo()
+	{
+		final Page<Aplicativo> aplicativos = this.aplicativoService.listAplicativosByFilters( "Aplicativo", true, null );
+		Assert.assertNotNull( aplicativos );
+		Assert.assertEquals( 2, aplicativos.getSize() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void listAplicativosByFiltersMustReturnOneInativo()
+	{
+		final Page<Aplicativo> aplicativos = this.aplicativoService.listAplicativosByFilters( "Aplicativo", false, null );
+		Assert.assertNotNull( aplicativos );
+		Assert.assertEquals( 1, aplicativos.getSize() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", "/dataset/aplicativo/PerfilAcessoDataSet.xml" })
+	public void listPerfilAcessoByFiltersMustReturnTwo()
+	{
+		final Page<PerfilAcesso> perfilAcesso = this.aplicativoService.listPerfisAcessoByFilters( "Perfil", 1L, null );
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertEquals( 2, perfilAcesso.getSize() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", "/dataset/aplicativo/PerfilAcessoDataSet.xml" })
+	public void updateDiasExpiracaoSenhaPerfilAcessoMustPass()
+	{
+		PerfilAcesso perfilAcesso = aplicativoService.findPerfilAcessoById( 1L );
+		perfilAcesso.setDiasExpiracaoSenha( 90 );
+		perfilAcesso = aplicativoService.insertPerfilAcesso( perfilAcesso );
+		perfilAcesso = aplicativoService.findPerfilAcessoById( perfilAcesso.getId() );
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertNotNull( perfilAcesso.getDiasExpiracaoSenha() );
+		Assert.assertEquals( (long)perfilAcesso.getDiasExpiracaoSenha() , 90 );		
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected = AssertionError.class)
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", "/dataset/aplicativo/PerfilAcessoDataSet.xml" })
+	public void updateDiasExpiracaoSenhaPerfilAcessoMustFail()
+	{
+		PerfilAcesso perfilAcesso = aplicativoService.findPerfilAcessoById( 1L );
+		// Não pode adicionar valor negativo
+		perfilAcesso.setDiasExpiracaoSenha( -90 );
+		perfilAcesso = aplicativoService.insertPerfilAcesso( perfilAcesso );
+		perfilAcesso = aplicativoService.findPerfilAcessoById( perfilAcesso.getId() );
+		Assert.assertNotNull( perfilAcesso );
+		Assert.assertNotNull( perfilAcesso.getDiasExpiracaoSenha() );
+		Assert.assertEquals( (long)perfilAcesso.getDiasExpiracaoSenha() , -90 );		
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", "/dataset/aplicativo/PerfilAcessoDataSet.xml", "/dataset/aplicativo/PermissaoDataSet.xml" })
+	public void listPermissoesByAplicativoMustReturnTwo()
+	{
+		final List<Permissao> permissao = this.aplicativoService.listPermissoesByAplicativoId( 1L );
+		Assert.assertNotNull( permissao );
+		Assert.assertEquals( 2, permissao.size() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void disableAplicativosMustPass()
+	{
+		this.aplicativoService.disableAplicativos( Arrays.asList( 1L ), "Mensagem de motivo de desativação de aplicativo" );
+		final Aplicativo aplicativo = this.aplicativoService.findAplicativoById( 1L );
+		Assert.assertNotNull( aplicativo );
+		Assert.assertNotNull( aplicativo.getMensagemDesativacao() );
+		Assert.assertFalse( aplicativo.getAtivo() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void enableAplicativosMustPass()
+	{
+		this.aplicativoService.enableAplicativos( Arrays.asList( 3L ) );
+		final Aplicativo aplicativo = this.aplicativoService.findAplicativoById( 3L );
+		Assert.assertNotNull( aplicativo );
+		Assert.assertNull( aplicativo.getMensagemDesativacao() );
+		Assert.assertTrue( aplicativo.getAtivo() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml", })
+	public void removeOneEnabledAplicativoMustPass()
+	{
+		this.aplicativoService.removeAplicativos( Arrays.asList( 1L ) );
+		List<Aplicativo> aplicativos = this.aplicativoService.listAplicativosByFilters( null, true, null ).getContent();
+		Assert.assertEquals( 1, aplicativos.size() );
+	}
+
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value =
+	{ "/dataset/aplicativo/AplicativoDataSet.xml" })
+	public void uploadAndRemoveIcone()
+	{
+		FileInputStream file;
+		try
+		{
+			file = new FileInputStream( this.getClass().getResource( "/foto.jpg" ).getPath() );
+			final FileTransfer fileTransfer = new FileTransfer( "test.jpg", MediaType.IMAGE_JPEG_VALUE, file );
+			this.aplicativoService.updateIcone( fileTransfer, 1L );
+			this.aplicativoService.removeIcone( 1L );
+		}
+		catch ( FileNotFoundException e )
+		{
+			e.printStackTrace();
+		}
+	}
+}

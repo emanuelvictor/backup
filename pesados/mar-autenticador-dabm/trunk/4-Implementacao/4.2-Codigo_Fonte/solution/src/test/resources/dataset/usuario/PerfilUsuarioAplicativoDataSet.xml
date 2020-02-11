@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	
+	<public.perfil_usuario_aplicativo
+		id = "1"
+		perfil_acesso_id = "1"
+		usuario_id = "1"
+		created="2015-04-28 00:00:00"
+		/>
+	<public.perfil_usuario_aplicativo
+		id = "2"
+		perfil_acesso_id = "2"
+		usuario_id = "1"
+		created="2015-04-28 00:00:00"
+		/>
+	<public.perfil_usuario_aplicativo
+		id = "3"
+		perfil_acesso_id = "1"
+		usuario_id = "2"
+		created="2015-04-28 00:00:00"
+		/>
+	<public.perfil_usuario_aplicativo
+		id = "4"
+		perfil_acesso_id = "2"
+		usuario_id = "3"
+		created="2015-04-28 00:00:00"
+		/>
+	<public.perfil_usuario_aplicativo
+		id = "5"
+		perfil_acesso_id = "3"
+		usuario_id = "3"
+		created="2015-04-28 00:00:00"
+		/>
+	<public.perfil_usuario_aplicativo
+		id = "6"
+		perfil_acesso_id = "6"
+		usuario_id = "4"
+		created="2015-04-28 00:00:00"
+		/>
+</dataset>

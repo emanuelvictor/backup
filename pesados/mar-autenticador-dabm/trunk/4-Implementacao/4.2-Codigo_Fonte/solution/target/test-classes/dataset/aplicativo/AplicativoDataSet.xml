@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.aplicativo
+		id="1"
+		nome="Aplicativo 1"
+		ativo="true"
+		identificador="12345678"
+		perfis_dinamicos="false"
+		refresh_token="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
+		versao="1.0.0-SNAPSHOT"
+		descricao="Descrição Aplicativo 1"
+		endereco="http://localhost:8081/client"
+		created="2015-03-30 00:00:00"/>
+	<public.aplicativo
+		id="2"
+		nome="Aplicativo 2"
+		ativo="true"
+		identificador="123456789"
+		perfis_dinamicos="false"
+		refresh_token="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
+		versao="1.0.0-SNAPSHOT"
+		descricao="Descrição Aplicativo 2"
+		endereco="http://localhost:8082/client2"
+		created="2015-03-30 00:00:00"/>
+	<public.aplicativo
+		id="3"
+		nome="Aplicativo 3"
+		ativo="false"
+		identificador="1234567"
+		perfis_dinamicos="false"
+		refresh_token="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
+		versao="1.0.0-SNAPSHOT"
+		descricao="Descrição Aplicativo 3"
+		endereco="http://localhost:8081/client3"
+		created="2015-03-30 00:00:00"/>
+</dataset>

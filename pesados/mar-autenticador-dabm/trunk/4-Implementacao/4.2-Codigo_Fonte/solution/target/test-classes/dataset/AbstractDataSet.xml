@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.usuario/>
+	<public.aplicativo/>
+	<public.perfil_acesso/>
+	<public.perfil_acesso_permissao/>
+	<public.perfil_usuario_aplicativo/>
+	<public.permissao/>
+	<public.configuracao/>
+</dataset>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.usuario
+		id="1"
+		email="usuario001@testing.com"
+		login="user01"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		data_alteracao_senha="2015-06-01 00:00:00"
+		data_exclusao="2015-01-01 00:00:00"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2015-02-02 00:00:00"
+		data_expiracao_senha="2015-08-08 00:00:00"
+		nome_completo="User 001"
+		created="2015-04-28 00:00:00"/>
+	<public.usuario
+		id="2"
+		created="2015-03-30 00:00:00"
+		email="usuario002@testing.com"
+		login="user02"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2030-08-08 00:00:00"
+		data_expiracao_senha="2030-08-08 00:00:00"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		nome_completo="User 002"/>
+	<public.usuario
+		id="3"
+		created="2015-03-30 00:00:00"
+		email="usuario003@testing.com"
+		login="user03"
+		data_bloqueio="2015-01-01 00:00:00"
+		data_desbloqueio="2030-08-08 00:00:00"
+		data_expiracao_senha="2030-08-08 00:00:00"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		nome_completo="User 003"/>
+	<public.usuario
+		id="4"
+		created="2015-03-30 00:00:00"
+		email="usuario004@testing.com"
+		login="user04"
+		data_bloqueio="2030-01-01 00:00:00"
+		data_desbloqueio="2030-08-08 00:00:00"
+		data_expiracao_senha="2030-08-08 00:00:00"
+		senha="d1bd2f08fead38a982asd9d4ca060152400b1b8f"
+		nome_completo="User 004"/>
+	<public.usuario
+		id="5"
+		created="2015-03-30 00:00:00"
+		email="test@mailinator.com"
+		login="test"
+		data_bloqueio="2030-01-01 00:00:00"
+		data_expiracao_senha="2030-08-08 00:00:00"
+		senha="41e9297364264b3cab844b6be06b9e286fecf379"
+		nome_completo="Test"/>
+		
+	<public.usuario
+		id="6"
+		created="2015-03-30 00:00:00"
+		email="replyTest@mailinator.com"
+		login="replyTest"
+		data_bloqueio="2030-01-01 00:00:00"
+		data_expiracao_senha="2030-08-08 00:00:00"
+		senha="41e9297364264b3cab844b6be06b9e286fecf379"
+		nome_completo="replyTest"/>
+		
+</dataset>

@@ -1,0 +1,13 @@
+<div class="upload-image" ng-click="uploadFile()" layout="column" layout-align="center center">
+    <div style="display: none; cursor:pointer">
+        <md-icon class="md-icon-edit md-icon-2x"></md-icon>
+        <p>{{ source ? 'Alterar' : '+ Adicionar' }} {{text}}</p>
+        <md-icon ng-show="showThumb" class="md-icon-delete md-icon-2x">
+            <md-tooltip class="upload-image-tooltip">
+                Remover {{text}}
+            </md-tooltip>
+        </md-icon>
+    </div>
+    <img ng-src="{{source}}" ng-show="showThumb" class="image">
+    <input style="height : 0; visibility: hidden" id="icon" type="file" name="icon" onchange="angular.element(this).scope().onFileChange(this)">
+</div>
