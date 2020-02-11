@@ -1,0 +1,123 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1359" measuredH="817" mockupW="959" mockupH="696">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="400" y="121" w="959" h="696" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Canvas" x="400" y="121" w="959" h="70" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Canvas" x="400" y="191" w="959" h="81" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Label" x="467" y="143" w="-1" h="-1" measuredW="108" measuredH="26" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Novo%20Usu%E1rio</text>
+      </controlProperties>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Label" x="516" y="364" w="-1" h="-1" measuredW="82" measuredH="24" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>Aplicativos</text>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::Icon" x="426" y="144" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>Listar_Usuarios%26bm%3BListar_Usuarios.bmml%26bm%3BListar_Usuarios.bmml%26bm%3BListar_Usuarios.bmml</href>
+        <icon>SimpleArrowIcon%7Csmall</icon>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2226%2C23%2C50%2C47%22%20href%3D%22Listar_Usuarios.bmml%22%20alt%3D%22Listar_Usuarios%22%20id%3D%2291%22/%3E</map>
+        <rotation>180</rotation>
+      </controlProperties>
+    </control>
+    <control controlID="119" controlTypeID="com.balsamiq.mockups::Label" x="577" y="251" w="-1" h="-1" measuredW="169" measuredH="24" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>Informa%E7%F5es%20da%20conta</text>
+      </controlProperties>
+    </control>
+    <control controlID="120" controlTypeID="com.balsamiq.mockups::Icon" x="590" y="148" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GtIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="121" controlTypeID="com.balsamiq.mockups::Label" x="623" y="143" w="-1" h="-1" measuredW="156" measuredH="26" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>18</size>
+        <text>Criar%20novo%20usu%E1rio</text>
+      </controlProperties>
+    </control>
+    <control controlID="124" controlTypeID="__group__" x="1297" y="140" w="32" h="32" measuredW="32" measuredH="32" zOrder="9" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="124">
+          <controlProperties>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="4" y="4" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="1" locked="false" isInGroup="124">
+          <controlProperties>
+            <icon>ContactIcon%7Csmall</icon>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="126" controlTypeID="com.balsamiq.mockups::TextArea" x="490" y="341" w="778" h="370" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="132" controlTypeID="com.balsamiq.mockups::RoundButton" x="1297" y="755" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>Listar_Usuarios%26bm%3BListar_Usuarios.bmml%26bm%3BListar_Usuarios.bmml%26bm%3BListar_Usuarios.bmml</href>
+        <icon>SaveIcon%7Cxsmall</icon>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22897%2C634%2C929%2C666%22%20href%3D%22Listar_Usuarios.bmml%22%20alt%3D%22Listar_Usuarios%22%20id%3D%22132%22/%3E</map>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="133" controlTypeID="com.balsamiq.mockups::TextArea" x="548" y="224" w="663" h="78" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>Cadastrar_Usuario%26bm%3BCadastrar_Usuario.bmml%26bm%3BCadastrar_Usuario.bmml%26bm%3BCadastrar_Usuario.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22148%2C103%2C811%2C181%22%20href%3D%22Cadastrar_Usuario.bmml%22%20alt%3D%22Cadastrar_Usuario%22%20id%3D%22133%22/%3E</map>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="134" controlTypeID="com.balsamiq.mockups::HRule" x="489" y="403" w="779" h="-1" measuredW="100" measuredH="10" zOrder="13" locked="false" isInGroup="-1"/>
+    <control controlID="135" controlTypeID="com.balsamiq.mockups::RoundButton" x="509" y="428" w="53" h="53" measuredW="32" measuredH="32" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>ThumbnailsIcon%7Csmall</icon>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="136" controlTypeID="com.balsamiq.mockups::Label" x="575" y="433" w="-1" h="-1" measuredW="128" measuredH="22" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Nome%20do%20Aplicativo</text>
+      </controlProperties>
+    </control>
+    <control controlID="137" controlTypeID="com.balsamiq.mockups::Label" x="575" y="457" w="-1" h="-1" measuredW="136" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>Descri%E7%E3o%20do%20aplicativo</text>
+      </controlProperties>
+    </control>
+    <control controlID="138" controlTypeID="com.balsamiq.mockups::Link" x="1096" y="446" w="-1" h="-1" measuredW="29" measuredH="19" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ativo</text>
+        <underline>false</underline>
+      </controlProperties>
+    </control>
+    <control controlID="139" controlTypeID="com.balsamiq.mockups::RoundButton" x="509" y="501" w="53" h="53" measuredW="32" measuredH="32" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>PlusIcon%7Csmall</icon>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="140" controlTypeID="com.balsamiq.mockups::Label" x="575" y="517" w="-1" h="-1" measuredW="114" measuredH="21" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>Adicionar%20aplicativo</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
